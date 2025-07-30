@@ -3,9 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Support Santosh's creative journey. Your contribution helps fuel amazing projects, grow a community, and ensure sustainable progress.">
+  <link rel="icon" href="src/image/my-logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="src/image/my-logo.png">
   <title>Support Santosh's Creative Work</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
   <link rel="stylesheet" href="src/styles/style.css">
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <meta name="theme-color" content="#6c5ce7">
@@ -16,9 +20,9 @@
 
   <!-- Floating Elements -->
   <div class="floating-elements">
-    <div class="floating-element" style="width: 150px; height: 150px; background-color: var(--primary); top: 10%; left: 5%; animation-delay: 0s;"></div>
-    <div class="floating-element" style="width: 200px; height: 200px; background-color: var(--accent); bottom: 15%; right: 10%; animation-delay: 2s;"></div>
-    <div class="floating-element" style="width: 100px; height: 100px; background-color: var(--primary-light); top: 30%; right: 20%; animation-delay: 4s;"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
   </div>
 
   <!-- Header -->
@@ -26,21 +30,16 @@
     <div class="container">
       <nav class="navbar">
         <a href="#" class="logo">
-          <img src="src/image/picture.jpg" alt="Santosh" class="logo-img">
+          <img src="src/image/profile-picture.jpg" alt="Mr. Santosh logo" class="logo-img">
           <span class="logo-text">Mr. Santosh</span>
         </a>
         <div class="header-actions">
           <a href="#support" class="icon-btn-header support-btn-header" aria-label="Support My Work">
-            <i class="fas fa-heart"></i>
+            <i class="fas fa-sack-dollar"></i>
           </a>
-          <div class="theme-switch-wrapper">
-            <i class="fas fa-sun theme-icon"></i>
-            <label class="theme-switch" for="theme-toggle">
-              <input type="checkbox" id="theme-toggle" />
-              <span class="slider"></span>
-            </label>
-            <i class="fas fa-moon theme-icon"></i>
-          </div>
+          <button class="icon-btn-header" id="theme-toggle-btn" aria-label="Toggle theme">
+            <i class="fas fa-moon"></i>
+          </button>
           <button class="menu-toggle" id="menu-toggle" aria-label="Open menu">
             <i class="fas fa-bars"></i>
           </button>
@@ -57,25 +56,28 @@
         <p>Your support enables me to create amazing projects and share valuable content with the world. Let's build something extraordinary together!</p>
         <div class="hero-stats">
           <div class="stat-item">
-            <span class="stat-number" id="supporters-count">250+</span>
+            <span class="stat-number" id="supporters-count">100+</span>
             <span class="stat-label">Supporters</span>
           </div>
           <div class="stat-item">
-            <span class="stat-number" id="projects-count">15+</span>
+            <span class="stat-number" id="projects-count">10+</span>
             <span class="stat-label">Projects</span>
           </div>
           <div class="stat-item">
-            <span class="stat-number" id="community-count">5K+</span>
+            <span class="stat-number" id="community-count">10K+</span>
             <span class="stat-label">Community</span>
           </div>
         </div>
         <a href="#support" class="cta-btn" id="reveal-support-section-btn">
-          <i class="fas fa-rupee-sign"></i> Support My Work
+          <i class="fas fa-sack-dollar"></i> Support My Work
         </a>
       </section>
 
-      <section class="cta-section" id="support" style="scroll-margin-top: 100px;">
-        <h2>Choose an amount to support</h2>
+      <section class="cta-section scroll-target" id="support">
+        <button class="modal-close" id="close-support-section" aria-label="Close">
+          <i class="fas fa-times"></i>
+        </button>
+        <h2>Choose an Amount</h2>
         
         <div class="donation-options">
           <div class="donation-amount">
@@ -93,12 +95,12 @@
         </div>
         
         <div class="custom-amount">
-          <i class="fas fa-rupee-sign"></i>
+          <i class="fas fa-sack-dollar"></i>
           <input type="number" id="custom-amount" placeholder="Or enter custom amount" min="10">
         </div>
         
         <button class="cta-btn" id="payment-btn">
-          <i class="fas fa-rupee-sign"></i> Support My Work
+          <i class="fas fa-sack-dollar"></i> Support My Work
           <div class="spinner"></div>
         </button>
         
@@ -107,7 +109,7 @@
         </p>
       </section>
 
-      <section class="value-props" id="features" style="scroll-margin-top: 100px;">
+      <section class="value-props scroll-target" id="features">
         <h2 class="section-title">Why Your Support Matters</h2>
         <div class="value-cards-container">
           <div class="value-card" data-animation="fade-in-up">
@@ -117,14 +119,14 @@
             <h3>Creative Magic</h3>
             <p>Funding helps transform ideas into reality through dedicated creative work and innovation.</p>
           </div>
-          <div class="value-card" data-animation="fade-in-up" style="transition-delay: 0.1s;">
+          <div class="value-card" data-animation="fade-in-up">
             <div class="value-icon">
               <i class="fas fa-users"></i>
             </div>
             <h3>Community Growth</h3>
             <p>Your support helps build and nurture a community of like-minded creators and learners.</p>
           </div>
-          <div class="value-card" data-animation="fade-in-up" style="transition-delay: 0.2s;">
+          <div class="value-card" data-animation="fade-in-up">
             <div class="value-icon">
               <i class="fas fa-chart-line"></i>
             </div>
@@ -134,14 +136,78 @@
         </div>
       </section>
 
-      <section class="testimonials" id="testimonials" data-animation="fade-in" style="scroll-margin-top: 100px;">
-        <h2 class="section-title">What Supporters Say</h2>
-        <div class="testimonial-grid" id="testimonial-container">
-          <!-- Testimonials will be loaded dynamically from data-provider.js -->
+      <section class="projects-section scroll-target" id="projects" data-animation="fade-in-up">
+        <h2 class="section-title">My Projects</h2>
+        <div class="projects-grid">
+          <!-- Project Card 1: ApnaStore -->
+          <div class="project-card">
+            <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=400&h=250&fit=crop&q=80" alt="ApnaStore E-commerce Project" class="project-image">
+            <div class="project-content">
+              <h3>ApnaStore E-commerce</h3>
+              <p>A modern e-commerce platform built with the MERN stack, featuring a clean UI and robust backend functionalities.</p>
+              <div class="project-tags">
+                <span>React</span>
+                <span>Node.js</span>
+                <span>MongoDB</span>
+              </div>
+              <div class="project-links">
+                <a href="#" class="project-link" target="_blank" rel="noopener noreferrer">Live Demo <i class="fas fa-external-link-alt"></i></a>
+                <a href="https://github.com/iamskdev/apnastore.com" class="project-link" target="_blank" rel="noopener noreferrer">Source <i class="fab fa-github"></i></a>
+            </div>
+           </div>
+          </div>
+          <!-- Project Card 2: PayToSantosh -->
+          <div class="project-card">
+            <img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=400&h=250&fit=crop&q=80" alt="PayToSantosh Project" class="project-image">
+            <div class="project-content">
+              <h3>PayToSantosh</h3>
+              <p>A personal payment gateway page, similar to this one, for receiving support and donations seamlessly.</p>
+              <div class="project-tags">
+                <span>HTML</span>
+                <span>CSS</span>
+                <span>JavaScript</span>
+              </div>
+              <div class="project-links">
+                <a href="#" class="project-link" target="_blank" rel="noopener noreferrer">Live Demo <i class="fas fa-external-link-alt"></i></a>
+                <a href="https://github.com/iamskdev/paytosantosh.com" class="project-link" target="_blank" rel="noopener noreferrer">Source <i class="fab fa-github"></i></a>
+              </div>
+            </div>
+          </div>
+          <!-- Project Card 3: This Website -->
+          <div class="project-card">
+            <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=400&h=250&fit=crop&q=80" alt="Support Gateway Project" class="project-image">
+            <div class="project-content">
+              <h3>Support Gateway</h3>
+              <p>The very page you are on! A modern, responsive landing page to receive support for creative work.</p>
+              <div class="project-tags">
+                <span>PWA</span>
+                <span>Particles.js</span>
+                <span>Swiper.js</span>
+              </div>
+              <div class="project-links">
+                <a href="#" class="project-link" target="_blank" rel="noopener noreferrer">Live Demo <i class="fas fa-external-link-alt"></i></a>
+                <a href="https://github.com/iamskdev/support-gateway" class="project-link" target="_blank" rel="noopener noreferrer">Source <i class="fab fa-github"></i></a>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section class="faq-section" id="faq" data-animation="fade-in-up" style="scroll-margin-top: 100px;">
+      <section class="testimonials scroll-target" id="testimonials" data-animation="fade-in">
+        <h2 class="section-title">What Supporters Say</h2>
+        <!-- Slider main container -->
+        <div class="swiper testimonial-slider">
+          <!-- Additional required wrapper -->
+          <div class="swiper-wrapper" id="testimonial-container">
+            <!-- Slides will be injected here by JS -->
+          </div>
+          <div class="swiper-pagination"></div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
+      </section>
+
+      <section class="faq-section scroll-target" id="faq" data-animation="fade-in-up">
         <h2 class="section-title">Frequently Asked Questions</h2>
         <div class="faq-container">
           <details class="faq-item">
@@ -178,7 +244,7 @@
   <aside class="drawer" id="drawer">
     <div class="drawer-header">
       <a href="#" class="logo">
-        <img src="src/image/picture.jpg" alt="Santosh" class="logo-img">
+        <img src="src/image/profile-picture.jpg" alt="Santosh" class="logo-img">
         <span class="logo-text">Mr. Santosh</span>
       </a>
       <button class="drawer-close" id="drawer-close" aria-label="Close menu">
@@ -186,23 +252,21 @@
       </button>
     </div>
     <div class="drawer-content">
-      <div class="drawer-section">
-        <h4 class="drawer-section-title">Share This Page</h4>
-        <div class="share-buttons">
-          <button class="share-btn" id="share-whatsapp" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp"></i> WhatsApp</button>
-          <button class="share-btn" id="share-facebook" aria-label="Share on Facebook"><i class="fab fa-facebook-f"></i> Facebook</button>
-          <button class="share-btn" id="share-twitter" aria-label="Share on Twitter"><i class="fab fa-twitter"></i> Twitter</button>
-          <button class="share-btn" id="copy-link" aria-label="Copy link"><i class="fas fa-copy"></i> Copy Link</button>
-        </div>
-      </div>
+      <nav class="drawer-nav">
+        <a href="#home" class="drawer-link active"><i class="fas fa-home"></i> Home</a>
+        <a href="#projects" class="drawer-link"><i class="fas fa-code-branch"></i> Projects</a>
+        <a href="#support" class="drawer-link"><i class="fas fa-heart"></i> Support Me</a>
+        <a href="#features" class="drawer-link"><i class="fas fa-star"></i> Features</a>
+        <a href="#testimonials" class="drawer-link"><i class="fas fa-comment-dots"></i> Testimonials</a>
+        <a href="#faq" class="drawer-link"><i class="fas fa-question-circle"></i> FAQ</a>
+        <hr class="drawer-divider">
+        <button class="drawer-link" id="native-share-btn">
+          <i class="fas fa-share-nodes"></i> Share Page
+        </button>
+      </nav>
     </div>
     <div class="drawer-footer">
-      <div class="social-links">
-        <a href="mailto:iamsantiosh@outlook.in" target="_blank" rel="noopener noreferrer" aria-label="Email"><i class="fas fa-envelope"></i></a>
-        <a href="https://github.com/iamskdev" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
-        <a href="https://www.linkedin.com/in/heysantosh" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-      </div>
-      <p class="copyright">© 2024 Santosh. All rights reserved.</p>
+      <p class="copyright">© 2024 Santosh. Made with <i class="fas fa-heart heart-icon"></i></p>
     </div>
   </aside>
 
@@ -216,6 +280,7 @@
             <div class="links-row">
               <a href="#home">Home</a>
               <a href="#support">Support</a>
+              <a href="#projects">Projects</a>
               <a href="#faq">FAQ</a>
             </div>
           </div>
@@ -230,7 +295,7 @@
         </div>
         <hr class="footer-divider">
         <div class="footer-bottom">
-          <p class="copyright">© 2024 Santosh. Made with <i class="fas fa-heart" style="color: #ff7675;"></i> in India.</p>
+          <p class="copyright">© 2024 Santosh. Made with <i class="fas fa-heart heart-icon"></i> in India.</p>
         </div>
       </div>
     </div>
@@ -262,7 +327,7 @@
   <div id="confetti-container"></div>
 
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-  <script src="src/scripts/data-provider.js"></script>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   <script src="src/scripts/script.js"></script>
 </body>
 </html>
