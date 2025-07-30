@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/src/styles/style.css">
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
+  <meta name="theme-color" content="#6c5ce7">
 </head>
 <body>
   <!-- Particle Background -->
@@ -34,12 +34,12 @@
             <i class="fas fa-heart"></i>
           </a>
           <div class="theme-switch-wrapper">
-            <i class="fas fa-sun" style="color: var(--text-light);"></i>
+            <i class="fas fa-sun theme-icon"></i>
             <label class="theme-switch" for="theme-toggle">
               <input type="checkbox" id="theme-toggle" />
               <span class="slider"></span>
             </label>
-            <i class="fas fa-moon" style="color: var(--text-light);"></i>
+            <i class="fas fa-moon theme-icon"></i>
           </div>
           <button class="menu-toggle" id="menu-toggle" aria-label="Open menu">
             <i class="fas fa-bars"></i>
@@ -53,11 +53,29 @@
   <main>
     <div class="container">
       <section class="hero" id="home" data-animation="fade-in">
-        <a href="#support" class="cta-btn" id="reveal-support-section-btn" style="margin-top: 1rem;"><i class="fas fa-heart"></i> Support My Work</a>
+        <h1>Fuel My Creative Journey</h1>
+        <p>Your support enables me to create amazing projects and share valuable content with the world. Let's build something extraordinary together!</p>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-number" id="supporters-count">250+</span>
+            <span class="stat-label">Supporters</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" id="projects-count">15+</span>
+            <span class="stat-label">Projects</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" id="community-count">5K+</span>
+            <span class="stat-label">Community</span>
+          </div>
+        </div>
+        <a href="#support" class="cta-btn" id="reveal-support-section-btn">
+          <i class="fas fa-rupee-sign"></i> Support My Work
+        </a>
       </section>
 
       <section class="cta-section" id="support" style="scroll-margin-top: 100px;">
-        <h2 style="font-size: 1.3rem; margin-bottom: 1.5rem; color: var(--primary);">Choose an amount to support</h2>
+        <h2>Choose an amount to support</h2>
         
         <div class="donation-options">
           <div class="donation-amount">
@@ -90,73 +108,41 @@
       </section>
 
       <section class="value-props" id="features" style="scroll-margin-top: 100px;">
-        <div class="value-card" data-animation="fade-in-up">
-          <div class="value-icon">
-            <i class="fas fa-magic"></i>
+        <h2 class="section-title">Why Your Support Matters</h2>
+        <div class="value-cards-container">
+          <div class="value-card" data-animation="fade-in-up">
+            <div class="value-icon">
+              <i class="fas fa-magic"></i>
+            </div>
+            <h3>Creative Magic</h3>
+            <p>Funding helps transform ideas into reality through dedicated creative work and innovation.</p>
           </div>
-          <h3>Creative Magic</h3>
-          <p>Funding helps transform ideas into reality through dedicated creative work and innovation.</p>
-        </div>
-        <div class="value-card" data-animation="fade-in-up" style="transition-delay: 0.1s;">
-          <div class="value-icon">
-            <i class="fas fa-users"></i>
+          <div class="value-card" data-animation="fade-in-up" style="transition-delay: 0.1s;">
+            <div class="value-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <h3>Community Growth</h3>
+            <p>Your support helps build and nurture a community of like-minded creators and learners.</p>
           </div>
-          <h3>Community Growth</h3>
-          <p>Your support helps build and nurture a community of like-minded creators and learners.</p>
-        </div>
-        <div class="value-card" data-animation="fade-in-up" style="transition-delay: 0.2s;">
-          <div class="value-icon">
-            <i class="fas fa-chart-line"></i>
+          <div class="value-card" data-animation="fade-in-up" style="transition-delay: 0.2s;">
+            <div class="value-icon">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h3>Sustainable Progress</h3>
+            <p>Contributions allow for long-term project development and consistent content creation.</p>
           </div>
-          <h3>Sustainable Progress</h3>
-          <p>Contributions allow for long-term project development and consistent content creation.</p>
         </div>
       </section>
 
       <section class="testimonials" id="testimonials" data-animation="fade-in" style="scroll-margin-top: 100px;">
-        <h2>What Supporters Say</h2>
-        <div class="testimonial-grid">
-          <div class="testimonial-card" data-animation="fade-in-up">
-            <div class="testimonial-content">
-              "Supporting creative work has been incredibly rewarding. Seeing the projects come to life makes every contribution worth it."
-            </div>
-            <div class="testimonial-author">
-              <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Supporter" class="author-avatar">
-              <div class="author-info">
-                <h4>Priya Sharma</h4>
-                <p>Supporter since 2022</p>
-              </div>
-            </div>
-          </div>
-          <div class="testimonial-card" data-animation="fade-in-up" style="transition-delay: 0.1s;">
-            <div class="testimonial-content">
-              "The quality of work produced is exceptional. I'm happy to contribute to such meaningful creative endeavors."
-            </div>
-            <div class="testimonial-author">
-              <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Supporter" class="author-avatar">
-              <div class="author-info">
-                <h4>Rahul Verma</h4>
-                <p>Monthly Supporter</p>
-              </div>
-            </div>
-          </div>
-          <div class="testimonial-card" data-animation="fade-in-up" style="transition-delay: 0.2s;">
-            <div class="testimonial-content">
-              "Knowing my support helps create more content that I enjoy is a win-win. The transparency is appreciated."
-            </div>
-            <div class="testimonial-author">
-              <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Supporter" class="author-avatar">
-              <div class="author-info">
-                <h4>Anjali Patel</h4>
-                <p>First-time Supporter</p>
-              </div>
-            </div>
-          </div>
+        <h2 class="section-title">What Supporters Say</h2>
+        <div class="testimonial-grid" id="testimonial-container">
+          <!-- Testimonials will be loaded dynamically from data-provider.js -->
         </div>
       </section>
 
       <section class="faq-section" id="faq" data-animation="fade-in-up" style="scroll-margin-top: 100px;">
-        <h2>Frequently Asked Questions</h2>
+        <h2 class="section-title">Frequently Asked Questions</h2>
         <div class="faq-container">
           <details class="faq-item">
             <summary>How will my contribution be used?</summary>
@@ -187,12 +173,12 @@
     </div>
   </main>
 
-  <!-- Drawer Menu -->
+  <!-- Simplified Drawer Menu -->
   <div class="drawer-overlay" id="drawer-overlay"></div>
   <aside class="drawer" id="drawer">
     <div class="drawer-header">
       <a href="#" class="logo">
-        <img src="src/image/picture.jpg" alt="Santosh" class="logo-img">
+        <img src="/src/image/picture.jpg" alt="Santosh" class="logo-img">
         <span class="logo-text">Mr. Santosh</span>
       </a>
       <button class="drawer-close" id="drawer-close" aria-label="Close menu">
@@ -200,21 +186,13 @@
       </button>
     </div>
     <div class="drawer-content">
-      <nav class="drawer-nav">
-        <a href="#home" class="nav-link active"><i class="fas fa-home fa-fw"></i><span>Home</span></a>
-        <a href="#support" class="nav-link"><i class="fas fa-donate fa-fw"></i><span>Support</span></a>
-        <a href="#features" class="nav-link"><i class="fas fa-star fa-fw"></i><span>Features</span></a>
-        <a href="#testimonials" class="nav-link"><i class="fas fa-comment-dots fa-fw"></i><span>Testimonials</span></a>
-        <a href="#faq" class="nav-link"><i class="fas fa-question-circle fa-fw"></i><span>FAQ</span></a>
-      </nav>
-      <hr class="drawer-divider">
       <div class="drawer-section">
-        <h4 class="drawer-section-title">Share Page</h4>
+        <h4 class="drawer-section-title">Share This Page</h4>
         <div class="share-buttons">
-          <button class="share-btn" id="share-whatsapp" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp"></i></button>
-          <button class="share-btn" id="share-facebook" aria-label="Share on Facebook"><i class="fab fa-facebook-f"></i></button>
-          <button class="share-btn" id="share-twitter" aria-label="Share on Twitter"><i class="fab fa-twitter"></i></button>
-          <button class="share-btn" id="copy-link" aria-label="Copy link"><i class="fas fa-copy"></i></button>
+          <button class="share-btn" id="share-whatsapp" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+          <button class="share-btn" id="share-facebook" aria-label="Share on Facebook"><i class="fab fa-facebook-f"></i> Facebook</button>
+          <button class="share-btn" id="share-twitter" aria-label="Share on Twitter"><i class="fab fa-twitter"></i> Twitter</button>
+          <button class="share-btn" id="copy-link" aria-label="Copy link"><i class="fas fa-copy"></i> Copy Link</button>
         </div>
       </div>
     </div>
@@ -224,11 +202,6 @@
         <a href="https://github.com/iamskdev" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
         <a href="https://www.linkedin.com/in/heysantosh" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
       </div>
-      <div class="drawer-legal">
-        <a href="#">Terms</a>
-        <span style="color: var(--text-light);">·</span>
-        <a href="#">Privacy</a>
-      </div>
       <p class="copyright">© 2024 Santosh. All rights reserved.</p>
     </div>
   </aside>
@@ -237,17 +210,17 @@
   <footer>
     <div class="container">
       <div class="footer-content">
-        <div class="footer-top" style="justify-content: space-around; flex-wrap: wrap;">
+        <div class="footer-top">
           <div class="footer-nav-links">
             <h4>Quick Links</h4>
             <div class="links-row">
               <a href="#home">Home</a>
-              <a href="#features">Features</a>
+              <a href="#support">Support</a>
               <a href="#faq">FAQ</a>
             </div>
           </div>
           <div class="footer-social">
-            <h4>Follow Me</h4>
+            <h4>Connect With Me</h4>
             <div class="social-links">
               <a href="mailto:iamsantiosh@outlook.in" target="_blank" rel="noopener noreferrer" aria-label="Email"><i class="fas fa-envelope"></i></a>
               <a href="https://github.com/iamskdev" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
@@ -257,12 +230,13 @@
         </div>
         <hr class="footer-divider">
         <div class="footer-bottom">
-          <p class="copyright">© 2024 Santosh. Made with <i class="fas fa-heart" style="color: #ff7675;"></i>.</p>
+          <p class="copyright">© 2024 Santosh. Made with <i class="fas fa-heart" style="color: #ff7675;"></i> in India.</p>
         </div>
       </div>
     </div>
   </footer>
 
+  <!-- Success Modal -->
   <div class="modal-overlay" id="success-modal">
     <div class="modal">
       <button class="modal-close" id="close-modal">
@@ -279,7 +253,7 @@
   </div>
 
   <!-- Tooltip for copy link -->
-  <div class="copy-tooltip" id="copy-tooltip"></div>
+  <div class="copy-tooltip" id="copy-tooltip">Link copied!</div>
 
   <!-- Back to top button -->
   <a href="#home" class="back-to-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></a>
@@ -288,7 +262,7 @@
   <div id="confetti-container"></div>
 
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script src="/src/scripts/data-provider.js"></script>
   <script src="/src/scripts/script.js"></script>
-
 </body>
 </html>
