@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
         currency: 'INR',
         name: 'Support Santosh\'s Work',
         description: 'Creative Work Support',
-        image: 'src/image/profile-picture.jpg',
+        image: 'src/image/my-logo.png',
         handler: function(response) {
           paymentSuccess(amount, response);
         },
