@@ -3,440 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Support Santosh's Creative Journey</title>
+  <title>Support Santosh's Creative Work</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    :root {
-      --primary: #7c4dff;
-      --primary-dark: #5e35b1;
-      --accent: #00e5ff;
-      --text: #263238;
-      --text-light: #607d8b;
-      --bg: #f5f7fa;
-      --card-bg: #ffffff;
-      --success: #00c853;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-      --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-      --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
-      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    }
+  <link rel="stylesheet" href="/src/styles/style.css">
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    /* Floating Particles */
-    .particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      overflow: hidden;
-    }
-
-    .particle {
-      position: absolute;
-      background: rgba(124, 77, 255, 0.1);
-      border-radius: 50%;
-      filter: blur(2px);
-      animation: float linear infinite;
-    }
-
-    @keyframes float {
-      0% {
-        transform: translateY(0) rotate(0deg);
-      }
-      100% {
-        transform: translateY(-100vh) rotate(360deg);
-      }
-    }
-
-    /* Header - Simplified */
-    header {
-      background-color: var(--card-bg);
-      box-shadow: var(--shadow-sm);
-      padding: 1rem 0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-    }
-
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-      gap: 0.75rem;
-    }
-
-    .logo-img {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--primary);
-      transition: var(--transition);
-    }
-
-    .logo-text {
-      font-weight: 600;
-      color: var(--primary);
-      font-size: 1.25rem;
-    }
-
-    /* Main Content */
-    main {
-      padding: 3rem 0;
-    }
-
-    .hero {
-      text-align: center;
-      max-width: 800px;
-      margin: 0 auto 3rem;
-    }
-
-    h1 {
-      font-size: clamp(2rem, 5vw, 3rem);
-      margin-bottom: 1.5rem;
-      line-height: 1.2;
-      background: linear-gradient(45deg, var(--primary), var(--accent));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      animation: textGradient 8s ease infinite;
-      background-size: 200% 200%;
-    }
-
-    @keyframes textGradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .hero p {
-      font-size: clamp(1rem, 2vw, 1.2rem);
-      color: var(--text-light);
-      margin-bottom: 2rem;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* Creative Payment Card */
-    .payment-card {
-      background-color: var(--card-bg);
-      border-radius: 16px;
-      padding: 2.5rem;
-      box-shadow: var(--shadow-lg);
-      max-width: 500px;
-      margin: 0 auto 4rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(124, 77, 255, 0.1);
-      transition: var(--transition);
-    }
-
-    .payment-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 30px rgba(124, 77, 255, 0.15);
-    }
-
-    .payment-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: linear-gradient(90deg, var(--primary), var(--accent));
-    }
-
-    .payment-amounts {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin: 1.5rem 0;
-      flex-wrap: wrap;
-    }
-
-    .amount-option {
-      background: white;
-      border: 2px solid var(--primary);
-      color: var(--primary);
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: var(--transition);
-      font-weight: 500;
-    }
-
-    .amount-option:hover {
-      background: var(--primary);
-      color: white;
-    }
-
-    .amount-option.selected {
-      background: var(--primary);
-      color: white;
-      box-shadow: 0 4px 12px rgba(124, 77, 255, 0.3);
-    }
-
-    .custom-amount {
-      margin: 1.5rem 0;
-    }
-
-    .custom-amount input {
-      width: 100%;
-      max-width: 200px;
-      padding: 0.75rem 1rem;
-      border: 2px solid var(--primary);
-      border-radius: 8px;
-      font-size: 1rem;
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-
-    .payment-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(45deg, var(--primary), var(--accent));
-      color: white;
-      padding: 1rem 2.5rem;
-      font-size: 1.1rem;
-      font-weight: 600;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: var(--transition);
-      text-decoration: none;
-      box-shadow: 0 4px 15px rgba(124, 77, 255, 0.3);
-      margin: 1rem 0;
-      width: 100%;
-      max-width: 280px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .payment-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(124, 77, 255, 0.4);
-    }
-
-    .payment-btn:active {
-      transform: translateY(1px);
-    }
-
-    .payment-btn .ripple {
-      position: absolute;
-      background: rgba(255, 255, 255, 0.4);
-      border-radius: 50%;
-      transform: scale(0);
-      animation: ripple 0.6s linear;
-      pointer-events: none;
-    }
-
-    @keyframes ripple {
-      to {
-        transform: scale(4);
-        opacity: 0;
-      }
-    }
-
-    /* Creative Features */
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      margin: 4rem auto;
-    }
-
-    .feature-card {
-      background-color: var(--card-bg);
-      border-radius: 16px;
-      padding: 2rem;
-      box-shadow: var(--shadow-sm);
-      transition: var(--transition);
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-8px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .feature-icon {
-      width: 80px;
-      height: 80px;
-      margin: 0 auto 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(45deg, var(--primary), var(--accent));
-      color: white;
-      border-radius: 50%;
-      font-size: 2rem;
-      box-shadow: 0 8px 20px rgba(124, 77, 255, 0.2);
-    }
-
-    .feature-card h3 {
-      font-size: 1.3rem;
-      margin-bottom: 1rem;
-      color: var(--primary);
-    }
-
-    .feature-card p {
-      color: var(--text-light);
-      font-size: 0.95rem;
-    }
-
-    /* Testimonial */
-    .testimonial {
-      background-color: var(--card-bg);
-      border-radius: 16px;
-      padding: 2rem;
-      box-shadow: var(--shadow-md);
-      max-width: 800px;
-      margin: 4rem auto;
-      text-align: center;
-      position: relative;
-    }
-
-    .testimonial::before {
-      content: '"';
-      position: absolute;
-      top: 0;
-      left: 1rem;
-      font-size: 5rem;
-      color: rgba(124, 77, 255, 0.1);
-      font-family: serif;
-      line-height: 1;
-    }
-
-    .testimonial p {
-      font-size: 1.1rem;
-      font-style: italic;
-      color: var(--text);
-      margin-bottom: 1.5rem;
-    }
-
-    .testimonial-author {
-      font-weight: 600;
-      color: var(--primary);
-    }
-
-    /* Footer */
-    footer {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: white;
-      padding: 2rem 0;
-      text-align: center;
-    }
-
-    .footer-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 1.5rem;
-      margin: 1rem 0;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .footer-links a {
-      color: white;
-      text-decoration: none;
-      transition: var(--transition);
-    }
-
-    .footer-links a:hover {
-      color: var(--accent);
-    }
-
-    .social-links {
-      display: flex;
-      gap: 1.5rem;
-      margin: 1rem 0;
-    }
-
-    .social-links a {
-      color: white;
-      font-size: 1.25rem;
-      transition: var(--transition);
-    }
-
-    .social-links a:hover {
-      color: var(--accent);
-      transform: translateY(-3px);
-    }
-
-    .copyright {
-      margin-top: 1.5rem;
-      font-size: 0.85rem;
-      opacity: 0.9;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .container {
-        padding: 0 1rem;
-      }
-      
-      .payment-card {
-        padding: 2rem 1.5rem;
-      }
-      
-      .features {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
 </head>
 <body>
-  <!-- Floating Particles -->
-  <div class="particles" id="particles"></div>
+  <!-- Particle Background -->
+  <div id="particles-js"></div>
+
+  <!-- Floating Elements -->
+  <div class="floating-elements">
+    <div class="floating-element" style="width: 150px; height: 150px; background-color: var(--primary); top: 10%; left: 5%; animation-delay: 0s;"></div>
+    <div class="floating-element" style="width: 200px; height: 200px; background-color: var(--accent); bottom: 15%; right: 10%; animation-delay: 2s;"></div>
+    <div class="floating-element" style="width: 100px; height: 100px; background-color: var(--primary-light); top: 30%; right: 20%; animation-delay: 4s;"></div>
+  </div>
 
   <!-- Header -->
   <header>
     <div class="container">
       <nav class="navbar">
         <a href="#" class="logo">
-          <!-- Replace with your photo -->
-          <img src="https://via.placeholder.com/150" alt="Santosh" class="logo-img">
-          <span class="logo-text">Santosh</span>
+          <img src="/src/image/picture.jpg" alt="Santosh" class="logo-img">
+          <span class="logo-text">Mr. Santosh</span>
         </a>
+        <div class="header-actions">
+          <a href="#support" class="icon-btn-header support-btn-header" aria-label="Support My Work">
+            <i class="fas fa-heart"></i>
+          </a>
+          <div class="theme-switch-wrapper">
+            <i class="fas fa-sun" style="color: var(--text-light);"></i>
+            <label class="theme-switch" for="theme-toggle">
+              <input type="checkbox" id="theme-toggle" />
+              <span class="slider"></span>
+            </label>
+            <i class="fas fa-moon" style="color: var(--text-light);"></i>
+          </div>
+          <button class="menu-toggle" id="menu-toggle" aria-label="Open menu">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
       </nav>
     </div>
   </header>
@@ -444,170 +52,243 @@
   <!-- Main Content -->
   <main>
     <div class="container">
-      <section class="hero">
-        <h1>Fuel My Creative Journey</h1>
-        <p>Your support helps me create amazing content, build innovative projects, and share knowledge with the community. Every contribution makes a difference!</p>
+      <section class="hero" id="home" data-animation="fade-in">
+        <a href="#support" class="cta-btn" id="reveal-support-section-btn" style="margin-top: 1rem;"><i class="fas fa-heart"></i> Support My Work</a>
       </section>
 
-      <section class="payment-card">
-        <h2>Choose Your Support Amount</h2>
-        <div class="payment-amounts">
-          <div class="amount-option" data-amount="100">₹100</div>
-          <div class="amount-option" data-amount="300">₹300</div>
-          <div class="amount-option selected" data-amount="500">₹500</div>
-          <div class="amount-option" data-amount="1000">₹1000</div>
+      <section class="cta-section" id="support" style="scroll-margin-top: 100px;">
+        <h2 style="font-size: 1.3rem; margin-bottom: 1.5rem; color: var(--primary);">Choose an amount to support</h2>
+        
+        <div class="donation-options">
+          <div class="donation-amount">
+            <input type="radio" id="amount-100" name="donation-amount" value="100" checked>
+            <label for="amount-100">₹100</label>
+          </div>
+          <div class="donation-amount">
+            <input type="radio" id="amount-300" name="donation-amount" value="300">
+            <label for="amount-300">₹300</label>
+          </div>
+          <div class="donation-amount">
+            <input type="radio" id="amount-500" name="donation-amount" value="500">
+            <label for="amount-500">₹500</label>
+          </div>
         </div>
+        
         <div class="custom-amount">
-          <p>Or enter custom amount:</p>
-          <input type="number" id="custom-amount" placeholder="₹ Amount" min="10">
+          <i class="fas fa-rupee-sign"></i>
+          <input type="number" id="custom-amount" placeholder="Or enter custom amount" min="10">
         </div>
-        <button class="payment-btn" id="rzp-button">
-          <i class="fas fa-heart"></i> Support Now
-          <span class="ripple"></span>
+        
+        <button class="cta-btn" id="payment-btn">
+          <i class="fas fa-rupee-sign"></i> Support My Work
+          <div class="spinner"></div>
         </button>
-        <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 1rem;">
+        
+        <p class="security-note">
           <i class="fas fa-lock"></i> Secure payment via Razorpay
         </p>
       </section>
 
-      <section class="features">
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-lightbulb"></i>
+      <section class="value-props" id="features" style="scroll-margin-top: 100px;">
+        <div class="value-card" data-animation="fade-in-up">
+          <div class="value-icon">
+            <i class="fas fa-magic"></i>
           </div>
-          <h3>Creative Projects</h3>
-          <p>Your support enables me to work on innovative ideas and bring them to life through dedicated development.</p>
+          <h3>Creative Magic</h3>
+          <p>Funding helps transform ideas into reality through dedicated creative work and innovation.</p>
         </div>
-        <div class="feature-card">
-          <div class="feature-icon">
+        <div class="value-card" data-animation="fade-in-up" style="transition-delay: 0.1s;">
+          <div class="value-icon">
             <i class="fas fa-users"></i>
           </div>
           <h3>Community Growth</h3>
-          <p>Contributions help build and nurture a community where we can learn and grow together.</p>
+          <p>Your support helps build and nurture a community of like-minded creators and learners.</p>
         </div>
-        <div class="feature-card">
-          <div class="feature-icon">
+        <div class="value-card" data-animation="fade-in-up" style="transition-delay: 0.2s;">
+          <div class="value-icon">
             <i class="fas fa-chart-line"></i>
           </div>
-          <h3>Sustainable Work</h3>
-          <p>Your support allows for consistent content creation and long-term project development.</p>
+          <h3>Sustainable Progress</h3>
+          <p>Contributions allow for long-term project development and consistent content creation.</p>
         </div>
       </section>
 
-      <section class="testimonial">
-        <p>"Great creators deserve support to keep doing their amazing work. I'm happy to contribute to Santosh's creative journey!"</p>
-        <div class="testimonial-author">- Happy Supporter</div>
+      <section class="testimonials" id="testimonials" data-animation="fade-in" style="scroll-margin-top: 100px;">
+        <h2>What Supporters Say</h2>
+        <div class="testimonial-grid">
+          <div class="testimonial-card" data-animation="fade-in-up">
+            <div class="testimonial-content">
+              "Supporting creative work has been incredibly rewarding. Seeing the projects come to life makes every contribution worth it."
+            </div>
+            <div class="testimonial-author">
+              <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Supporter" class="author-avatar">
+              <div class="author-info">
+                <h4>Priya Sharma</h4>
+                <p>Supporter since 2022</p>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card" data-animation="fade-in-up" style="transition-delay: 0.1s;">
+            <div class="testimonial-content">
+              "The quality of work produced is exceptional. I'm happy to contribute to such meaningful creative endeavors."
+            </div>
+            <div class="testimonial-author">
+              <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Supporter" class="author-avatar">
+              <div class="author-info">
+                <h4>Rahul Verma</h4>
+                <p>Monthly Supporter</p>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card" data-animation="fade-in-up" style="transition-delay: 0.2s;">
+            <div class="testimonial-content">
+              "Knowing my support helps create more content that I enjoy is a win-win. The transparency is appreciated."
+            </div>
+            <div class="testimonial-author">
+              <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Supporter" class="author-avatar">
+              <div class="author-info">
+                <h4>Anjali Patel</h4>
+                <p>First-time Supporter</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="faq-section" id="faq" data-animation="fade-in-up" style="scroll-margin-top: 100px;">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-container">
+          <details class="faq-item">
+            <summary>How will my contribution be used?</summary>
+            <div class="faq-content">
+              <p>Your support directly funds project development, software licenses, and the time required to create high-quality content. It helps me stay independent and focused on creating valuable resources for the community.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>Is this a one-time or recurring payment?</summary>
+            <div class="faq-content">
+              <p>All contributions through this page are one-time payments. There are no recurring charges or subscriptions involved.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>Can I get a refund?</summary>
+            <div class="faq-content">
+              <p>As contributions are considered support for creative work, they are generally non-refundable. However, if you face any issues with the payment process, please contact me, and I'll do my best to assist you.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>Is my payment secure?</summary>
+            <div class="faq-content">
+              <p>Yes, all payments are processed through Razorpay, a leading and highly secure payment gateway in India. Your financial information is encrypted and never stored on this website.</p>
+            </div>
+          </details>
+        </div>
       </section>
     </div>
   </main>
+
+  <!-- Drawer Menu -->
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+  <aside class="drawer" id="drawer">
+    <div class="drawer-header">
+      <a href="#" class="logo">
+        <img src="src/image/picture.jpg" alt="Santosh" class="logo-img">
+        <span class="logo-text">Mr. Santosh</span>
+      </a>
+      <button class="drawer-close" id="drawer-close" aria-label="Close menu">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="drawer-content">
+      <nav class="drawer-nav">
+        <a href="#home" class="nav-link active"><i class="fas fa-home fa-fw"></i><span>Home</span></a>
+        <a href="#support" class="nav-link"><i class="fas fa-donate fa-fw"></i><span>Support</span></a>
+        <a href="#features" class="nav-link"><i class="fas fa-star fa-fw"></i><span>Features</span></a>
+        <a href="#testimonials" class="nav-link"><i class="fas fa-comment-dots fa-fw"></i><span>Testimonials</span></a>
+        <a href="#faq" class="nav-link"><i class="fas fa-question-circle fa-fw"></i><span>FAQ</span></a>
+      </nav>
+      <hr class="drawer-divider">
+      <div class="drawer-section">
+        <h4 class="drawer-section-title">Share Page</h4>
+        <div class="share-buttons">
+          <button class="share-btn" id="share-whatsapp" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp"></i></button>
+          <button class="share-btn" id="share-facebook" aria-label="Share on Facebook"><i class="fab fa-facebook-f"></i></button>
+          <button class="share-btn" id="share-twitter" aria-label="Share on Twitter"><i class="fab fa-twitter"></i></button>
+          <button class="share-btn" id="copy-link" aria-label="Copy link"><i class="fas fa-copy"></i></button>
+        </div>
+      </div>
+    </div>
+    <div class="drawer-footer">
+      <div class="social-links">
+        <a href="mailto:iamsantiosh@outlook.in" target="_blank" rel="noopener noreferrer" aria-label="Email"><i class="fas fa-envelope"></i></a>
+        <a href="https://github.com/iamskdev" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/heysantosh" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+      <div class="drawer-legal">
+        <a href="#">Terms</a>
+        <span style="color: var(--text-light);">·</span>
+        <a href="#">Privacy</a>
+      </div>
+      <p class="copyright">© 2024 Santosh. All rights reserved.</p>
+    </div>
+  </aside>
 
   <!-- Footer -->
   <footer>
     <div class="container">
       <div class="footer-content">
-        <div class="footer-links">
-          <a href="#">Home</a>
-          <a href="#">Projects</a>
-          <a href="#">About</a>
-          <a href="#">Contact</a>
+        <div class="footer-top" style="justify-content: space-around; flex-wrap: wrap;">
+          <div class="footer-nav-links">
+            <h4>Quick Links</h4>
+            <div class="links-row">
+              <a href="#home">Home</a>
+              <a href="#features">Features</a>
+              <a href="#faq">FAQ</a>
+            </div>
+          </div>
+          <div class="footer-social">
+            <h4>Follow Me</h4>
+            <div class="social-links">
+              <a href="mailto:iamsantiosh@outlook.in" target="_blank" rel="noopener noreferrer" aria-label="Email"><i class="fas fa-envelope"></i></a>
+              <a href="https://github.com/iamskdev" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+              <a href="https://www.linkedin.com/in/heysantosh" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
         </div>
-        <div class="social-links">
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-github"></i></a>
-          <a href="#"><i class="fab fa-linkedin"></i></a>
+        <hr class="footer-divider">
+        <div class="footer-bottom">
+          <p class="copyright">© 2024 Santosh. Made with <i class="fas fa-heart" style="color: #ff7675;"></i>.</p>
         </div>
-        <p class="copyright">© 2023 Santosh. Made with <i class="fas fa-heart" style="color: #ff5252;"></i> for creative minds</p>
       </div>
     </div>
   </footer>
 
-  <script>
-    // Create floating particles
-    function createParticles() {
-      const particlesEl = document.getElementById('particles');
-      const particleCount = 15;
-      
-      for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        
-        // Random size between 5px and 20px
-        const size = Math.random() * 15 + 5;
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        
-        // Random position
-        particle.style.left = `${Math.random() * 100}vw`;
-        particle.style.bottom = `-${size}px`;
-        
-        // Random animation duration between 10s and 20s
-        const duration = Math.random() * 10 + 10;
-        particle.style.animationDuration = `${duration}s`;
-        
-        // Random delay
-        particle.style.animationDelay = `${Math.random() * 5}s`;
-        
-        particlesEl.appendChild(particle);
-      }
-    }
-    
-    // Amount selection 
-    const amountOptions = document.querySelectorAll('.amount-option');
-    amountOptions.forEach(option => {
-      option.addEventListener('click', function() {
-        amountOptions.forEach(opt => opt.classList.remove('selected'));
-        this.classList.add('selected');
-        document.getElementById('custom-amount').value = '';
-      });
-    });
-    
-    // Custom amount input
-    document.getElementById('custom-amount').addEventListener('input', function() {
-      if (this.value) {
-        amountOptions.forEach(opt => opt.classList.remove('selected'));
-      }
-    });
-    
-    // Ripple effect for payment button
-    document.getElementById('rzp-button').addEventListener('click', function(e) {
-      // Remove any existing ripple
-      const ripples = this.querySelectorAll('.ripple');
-      ripples.forEach(ripple => ripple.remove());
-      
-      // Create new ripple
-      const ripple = document.createElement('span');
-      ripple.classList.add('ripple');
-      
-      // Position ripple
-      const rect = this.getBoundingClientRect();
-      const size = Math.max(rect.width, rect.height);
-      ripple.style.width = `${size}px`;
-      ripple.style.height = `${size}px`;
-      ripple.style.left = `${e.clientX - rect.left - size/2}px`;
-      ripple.style.top = `${e.clientY - rect.top - size/2}px`;
-      
-      this.appendChild(ripple);
-      
-      // Get selected amount
-      let amount = document.querySelector('.amount-option.selected')?.dataset.amount;
-      if (!amount) {
-        amount = document.getElementById('custom-amount').value;
-      }
-      
-      if (!amount || isNaN(amount)) {
-        amount = 500; // default amount
-      }
-      
-      // In a real implementation, this would open Razorpay checkout
-      // For demo, we'll redirect directly after 500ms
-      setTimeout(() => {
-        window.location.href = 'https://razorpay.me/@paytosantosh';
-      }, 500);
-    });
-    
-    // Initialize
-    createParticles();
-  </script>
+  <div class="modal-overlay" id="success-modal">
+    <div class="modal">
+      <button class="modal-close" id="close-modal">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="checkmark">
+        <i class="fas fa-check"></i>
+      </div>
+      <h2>Thank You for Your Support!</h2>
+      <p>Your generous contribution of <span id="donation-amount"></span> has been received. This means the world to me and will directly support my creative work. You'll receive a receipt via email shortly.</p>
+      <p class="transaction-id">Transaction ID: <strong id="transaction-id"></strong></p>
+      <button class="modal-btn" id="modal-ok-btn">Continue Exploring</button>
+    </div>
+  </div>
+
+  <!-- Tooltip for copy link -->
+  <div class="copy-tooltip" id="copy-tooltip"></div>
+
+  <!-- Back to top button -->
+  <a href="#home" class="back-to-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></a>
+
+  <!-- Confetti Elements -->
+  <div id="confetti-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script src="/src/scripts/script.js"></script>
+
 </body>
 </html>
