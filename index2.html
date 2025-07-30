@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support Santosh's Creative Work</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #6c5ce7;
+      --primary-dark: #5649c0;
+      --accent: #00cec9;
+      --text: #2d3436;
+      --text-light: #636e72;
+      --bg: #f5f6fa;
+      --card-bg: #ffffff;
+      --success: #00b894;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Animated Background Elements */
+    .bg-elements {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .bg-circle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(108, 92, 231, 0.05);
+      animation: float 15s infinite ease-in-out;
+    }
+
+    .circle-1 {
+      width: 300px;
+      height: 300px;
+      top: -50px;
+      left: -50px;
+      animation-delay: 0s;
+    }
+
+    .circle-2 {
+      width: 200px;
+      height: 200px;
+      bottom: -30px;
+      right: -30px;
+      animation-delay: 2s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translate(0, 0);
+      }
+      50% {
+        transform: translate(20px, 20px);
+      }
+    }
+
+    /* Header */
+    header {
+      background-color: var(--card-bg);
+      box-shadow: var(--shadow-sm);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      animation: slideDown 0.5s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+      }
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      gap: 0.75rem;
+    }
+
+    .logo-img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--primary);
+      transition: var(--transition);
+    }
+
+    .logo:hover .logo-img {
+      transform: rotate(15deg);
+    }
+
+    .logo-text {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 1.25rem;
+    }
+
+    /* Main Content */
+    main {
+      padding: 3rem 0;
+    }
+
+    .hero {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 3rem;
+      animation: fadeIn 1s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      line-height: 1.3;
+      background: linear-gradient(45deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.1rem);
+      color: var(--text-light);
+      margin-bottom: 2rem;
+    }
+
+    .cta-section {
+      background-color: var(--card-bg);
+      border-radius: 16px;
+      padding: 2.5rem;
+      box-shadow: var(--shadow-lg);
+      max-width: 500px;
+      margin: 0 auto 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.8s ease-out;
+      border: 1px solid rgba(108, 92, 231, 0.1);
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(45deg, var(--primary), var(--accent));
+      color: white;
+      padding: 1rem 2.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+      margin: 1rem 0;
+      width: 100%;
+      max-width: 280px;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .cta-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, var(--accent), var(--primary));
+      opacity: 0;
+      transition: var(--transition);
+      z-index: -1;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(108, 92, 231, 0.4);
+    }
+
+    .cta-btn:hover::before {
+      opacity: 1;
+    }
+
+    .cta-btn i {
+      margin-right: 0.75rem;
+    }
+
+    .value-props {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin: 4rem auto;
+    }
+
+    .value-card {
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      border: 1px solid rgba(108, 92, 231, 0.05);
+      animation: fadeIn 0.8s ease-out;
+      animation-fill-mode: both;
+    }
+
+    .value-card:nth-child(1) {
+      animation-delay: 0.2s;
+    }
+
+    .value-card:nth-child(2) {
+      animation-delay: 0.4s;
+    }
+
+    .value-card:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+
+    .value-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(108, 92, 231, 0.1);
+    }
+
+    .value-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(45deg, var(--primary), var(--accent));
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin: 0 auto 1.5rem;
+      box-shadow: 0 4px 10px rgba(108, 92, 231, 0.2);
+    }
+
+    .value-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+      color: var(--primary);
+      text-align: center;
+    }
+
+    .value-card p {
+      color: var(--text-light);
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    /* Success Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 16px;
+      padding: 3rem;
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      position: relative;
+      transform: translateY(20px);
+      transition: var(--transition);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .modal-overlay.active .modal {
+      transform: translateY(0);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-light);
+    }
+
+    .checkmark {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--success);
+      margin: 0 auto 1.5rem;
+      animation: checkmarkScale 0.5s ease-out;
+    }
+
+    @keyframes checkmarkScale {
+      0% {
+        transform: scale(0);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .checkmark i {
+      color: white;
+      font-size: 2.5rem;
+    }
+
+    .modal h2 {
+      color: var(--success);
+      margin-bottom: 1rem;
+    }
+
+    .modal p {
+      color: var(--text-light);
+      margin-bottom: 2rem;
+    }
+
+    .modal-btn {
+      background: var(--success);
+      color: white;
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .modal-btn:hover {
+      background: #00a884;
+      transform: translateY(-2px);
+    }
+
+    /* Footer */
+    footer {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      padding: 1.5rem 0;
+      text-align: center;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.25rem;
+      margin: 0.75rem 0;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+      transition: var(--transition);
+      font-size: 0.9rem;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+      color: var(--accent);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1.25rem;
+      margin: 0.75rem 0;
+    }
+
+    .social-links a {
+      color: white;
+      font-size: 1.1rem;
+      transition: var(--transition);
+    }
+
+    .social-links a:hover {
+      color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    .copyright {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      opacity: 0.9;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .cta-section {
+        padding: 2rem;
+      }
+      
+      .value-card {
+        padding: 1.5rem;
+      }
+      
+      .modal {
+        padding: 2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 1rem;
+      }
+      
+      .cta-section {
+        padding: 1.5rem;
+      }
+      
+      .footer-links {
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Background Elements -->
+  <div class="bg-elements">
+    <div class="bg-circle circle-1"></div>
+    <div class="bg-circle circle-2"></div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <a href="#" class="logo">
+          <!-- Replace with your photo -->
+          <img src="/image/profile.jpg" alt="Santosh" class="logo-img">
+          <span class="logo-text">MrsSantosh</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <div class="container">
+      <section class="hero">
+        <h1>Fuel My Creative Journey</h1>
+        <p>Your support enables me to create amazing projects and share valuable content with the world. Let's build something extraordinary together!</p>
+      </section>
+
+      <section class="cta-section">
+        <button class="cta-btn" id="payment-btn">
+          <i class="fas fa-gem"></i> Support My Work
+        </button>
+        <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 1rem;">
+          <i class="fas fa-lock"></i> Secure payment processing
+        </p>
+      </section>
+
+      <section class="value-props">
+        <div class="value-card">
+          <div class="value-icon">
+            <i class="fas fa-magic"></i>
+          </div>
+          <h3>Creative Magic</h3>
+          <p>Funding helps transform ideas into reality through dedicated creative work and innovation.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <h3>Community Growth</h3>
+          <p>Your support helps build and nurture a community of like-minded creators and learners.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3>Sustainable Progress</h3>
+          <p>Contributions allow for long-term project development and consistent content creation.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-links">
+          <a href="#">Home</a>
+          <a href="#">Projects</a>
+          <a href="#">About</a>
+          <a href="#">Contact</a>
+        </div>
+        <div class="social-links">
+          <a href="#"><i class="fas fa-mail"></i></a>
+          <a href="#"><i class="fab fa-github"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
+        <p class="copyright">© 2023 Santosh. Made with <i class="fas fa-heart" style="color: #ff7675;"></i> for creative minds</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Success Modal -->
+  <div class="modal-overlay" id="success-modal">
+    <div class="modal">
+      <button class="modal-close" id="close-modal">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="checkmark">
+        <i class="fas fa-check"></i>
+      </div>
+      <h2>Payment Successful!</h2>
+      <p>Thank you for your generous support. Your contribution will help create amazing things!</p>
+      <button class="modal-btn" id="modal-ok-btn">Awesome!</button>
+    </div>
+  </div>
+
+  <script>
+    // Payment button click handler
+    document.getElementById('payment-btn').addEventListener('click', function() {
+      // In a real implementation, this would be Razorpay's payment handler
+      // For demo, we'll simulate a successful payment after 2 seconds
+      simulatePayment();
+    });
+
+    function simulatePayment() {
+      // Show loading state
+      const btn = document.getElementById('payment-btn');
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+      btn.disabled = true;
+      
+      // Simulate payment processing
+      setTimeout(() => {
+        // Show success modal
+        document.getElementById('success-modal').classList.add('active');
+        
+        // Reset button
+        btn.innerHTML = '<i class="fas fa-gem"></i> Support My Work';
+        btn.disabled = false;
+      }, 2000);
+    }
+
+    // Close modal handlers
+    document.getElementById('close-modal').addEventListener('click', closeModal);
+    document.getElementById('modal-ok-btn').addEventListener('click', closeModal);
+
+    function closeModal() {
+      document.getElementById('success-modal').classList.remove('active');
+    }
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Animation on scroll
+    const animateOnScroll = () => {
+      const cards = document.querySelectorAll('.value-card');
+      cards.forEach(card => {
+        const cardTop = card.getBoundingClientRect().top;
+        if (cardTop < window.innerHeight - 100) {
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }
+      });
+    };
+
+    // Initialize card animations
+    document.querySelectorAll('.value-card').forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px)';
+    });
+
+    window.addEventListener('scroll', animateOnScroll);
+    animateOnScroll(); // Run once on load
+  </script>
+</body>
+</html>
