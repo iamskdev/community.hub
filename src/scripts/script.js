@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     {
       quote: "Supporting Santosh's creative work has been incredibly rewarding. The quality of projects and the community he's building is inspiring.",
       author: "Khushboo Kumari",
-      role: "Supporter since 2021",
+      role: "Supporting since 2021",
       image: "https://randomuser.me/api/portraits/women/32.jpg"
     },
       {
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     {
       quote: "An amazing creator with a clear vision. The content is always top-notch and genuinely helpful. Happy to support!",
-      author: "Anjali Mehta",
+      author: "Ruby Kumari",
       role: "Designer",
       image: "https://randomuser.me/api/portraits/women/48.jpg"
     },
