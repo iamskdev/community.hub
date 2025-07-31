@@ -28,27 +28,36 @@ document.addEventListener('DOMContentLoaded', function() {
   ];
 
   function loadRandomTestimonials() {
-    const container = document.getElementById('testimonial-container');
-    if (!container) return;
+    return new Promise(resolve => {
+      const container = document.getElementById('testimonial-container');
+      if (!container) return resolve();
 
-    const shuffledTestimonials = [...testimonials].sort(() => Math.random() - 0.5);
+      // Simulate a network delay to show the skeleton
+      setTimeout(() => {
+        // Clear skeleton loaders
+        container.innerHTML = '';
 
-    shuffledTestimonials.forEach(testimonial => {
-      const slide = document.createElement('div');
-      slide.className = 'swiper-slide';
-      slide.innerHTML = `
-        <div class="testimonial-card">
-          <p class="testimonial-content">${testimonial.quote}</p>
-          <div class="testimonial-author">
-            <img src="${testimonial.image}" alt="${testimonial.author}" class="author-avatar">
-            <div class="author-info">
-              <h4>${testimonial.author}</h4>
-              <p>${testimonial.role}</p>
+        const shuffledTestimonials = [...testimonials].sort(() => Math.random() - 0.5);
+
+        shuffledTestimonials.forEach(testimonial => {
+          const slide = document.createElement('div');
+          slide.className = 'swiper-slide';
+          slide.innerHTML = `
+            <div class="testimonial-card">
+              <p class="testimonial-content">${testimonial.quote}</p>
+              <div class="testimonial-author">
+                <img src="${testimonial.image}" alt="${testimonial.author}" class="author-avatar">
+                <div class="author-info">
+                  <h4>${testimonial.author}</h4>
+                  <p>${testimonial.role}</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      `;
-      container.appendChild(slide);
+          `;
+          container.appendChild(slide);
+        });
+        resolve(); // Resolve the promise after loading
+      }, 1500); // 1.5 second delay
     });
   }
 
@@ -359,9 +368,13 @@ document.addEventListener('DOMContentLoaded', function() {
   drawerClose.addEventListener('click', closeDrawer);
   drawerOverlay.addEventListener('click', closeDrawer);
 
+  // Close drawer when a link is clicked for better UX
+  document.querySelectorAll('.drawer-nav .drawer-link').forEach(link => {
+    link.addEventListener('click', closeDrawer);
+  });
+
   // ========== Reveal/Scroll to Support Section ==========
   const supportSection = document.getElementById('support');
-  const heroSupportBtn = document.getElementById('reveal-support-section-btn');
   // headerSupportBtn is already defined in the Payment System section
 
   function revealSupportSection(focusPaymentButton = false) {
@@ -382,12 +395,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  if (heroSupportBtn) {
-    heroSupportBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      revealSupportSection();
-    });
-  }
   if (headerSupportBtn) {
     headerSupportBtn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -434,6 +441,29 @@ document.addEventListener('DOMContentLoaded', function() {
     statsObserver.observe(statsContainer);
   }
 
+  // ========== UPI ID Copy Button ==========
+  const copyUpiBtn = document.getElementById('copy-upi-btn');
+  const upiIdText = document.getElementById('upi-id-text');
+
+  if (copyUpiBtn && upiIdText) {
+    copyUpiBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(upiIdText.value).then(() => {
+        showTooltip('UPI ID copied!');
+        // Visual feedback on the button
+        const icon = copyUpiBtn.querySelector('i');
+        icon.classList.remove('fa-copy');
+        icon.classList.add('fa-check');
+        setTimeout(() => {
+          icon.classList.remove('fa-check');
+          icon.classList.add('fa-copy');
+        }, 2000);
+      }).catch(err => {
+        console.error('Failed to copy UPI ID: ', err);
+        showTooltip('Failed to copy!');
+      });
+    });
+  }
+
   // ========== Share Functionality ==========
   const nativeShareBtn = document.getElementById('native-share-btn');
 
@@ -461,53 +491,163 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // ========== Contact Modal Logic ==========
+  const contactModalOverlay = document.getElementById('contact-modal-overlay');
+  const openContactModalBtn = document.getElementById('open-contact-modal-btn');
+  const openContactModalFooterBtn = document.getElementById('open-contact-modal-footer-btn');
+  const closeContactModalBtn = document.getElementById('close-contact-modal');
+  const contactForm = document.getElementById('contact-form');
+
+  const openContactModal = () => {
+    if (contactModalOverlay) contactModalOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeContactModal = () => {
+    if (contactModalOverlay) contactModalOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  if (openContactModalBtn) {
+    openContactModalBtn.addEventListener('click', openContactModal);
+  }
+  if (openContactModalFooterBtn) {
+    openContactModalFooterBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openContactModal();
+    });
+  }
+  if (closeContactModalBtn) {
+    closeContactModalBtn.addEventListener('click', closeContactModal);
+  }
+  if (contactModalOverlay) {
+    contactModalOverlay.addEventListener('click', (e) => {
+      if (e.target === contactModalOverlay) {
+        closeContactModal();
+      }
+    });
+  }
+
+  // Handle Netlify form submission
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const submitBtn = contactForm.querySelector('button[type="submit"]');
+      const originalButtonText = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="spinner" style="display: inline-block; margin: 0;"></span> Sending...';
+
+      const formData = new FormData(contactForm);
+      fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(formData).toString() })
+        .then(() => { contactForm.reset(); closeContactModal(); showTooltip('Message sent successfully!'); })
+        .catch((error) => { alert('Oops! Something went wrong. Please try again.'); console.error(error); })
+        .finally(() => { submitBtn.disabled = false; submitBtn.innerHTML = originalButtonText; });
+    });
+  }
+
   // ========== Dynamic Year ==========
-  document.querySelectorAll('.copyright').forEach(el => {
-    el.textContent = el.textContent.replace('2024', new Date().getFullYear());
+  document.querySelectorAll('.copyright-year').forEach(el => {
+    el.textContent = new Date().getFullYear();
   });
 
-  // ========== Scroll Effects ==========
+  // ========== Scroll Effects & Scrollspy ==========
   const header = document.querySelector('header');
-  window.addEventListener('scroll', () => {
-    header.classList.toggle('scrolled', window.scrollY > 50);
-  });
-
   const backToTopButton = document.querySelector('.back-to-top');
-  window.addEventListener('scroll', () => {
-    backToTopButton.classList.toggle('visible', window.scrollY > 300);
+  const sections = document.querySelectorAll('.hero, .scroll-target');
+  const drawerLinks = document.querySelectorAll('.drawer-nav a.drawer-link[href^="#"]');
+  const particlesJsEl = document.getElementById('particles-js'); // For parallax
+
+  const handleScroll = () => {
+    const scrollY = window.scrollY;
+
+    // 1. Toggle scrolled class on header
+    header.classList.toggle('scrolled', scrollY > 50);
+
+    // 2. Toggle visibility of back-to-top button
+    backToTopButton.classList.toggle('visible', scrollY > 300);
+
+    // 3. Parallax effect for background
+    if (particlesJsEl) {
+      particlesJsEl.style.transform = `translateY(${scrollY * 0.4}px)`;
+    }
+
+    // 4. Scrollspy logic to highlight active drawer link
+    const headerOffset = header.offsetHeight + 20;
+    let currentSectionId = '';
+
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - headerOffset;
+      if (scrollY >= sectionTop) {
+        currentSectionId = section.getAttribute('id');
+      }
+    });
+
+    drawerLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === `#${currentSectionId}`) {
+        link.classList.add('active');
+      }
+    });
+  };
+
+  window.addEventListener('scroll', handleScroll);
+  handleScroll(); // Initial call to set correct state on page load
+
+  // ========== FAQ Accordion ==========
+  const faqItems = document.querySelectorAll('.faq-item');
+  faqItems.forEach(item => {
+    const summary = item.querySelector('summary');
+    if (summary) {
+      summary.addEventListener('click', (e) => {
+        // Prevent the default <details> toggle to handle it manually
+        e.preventDefault();
+
+        // If this item is already open, close it.
+        if (item.hasAttribute('open')) {
+          item.removeAttribute('open');
+        } else {
+          // Close all other open items first
+          faqItems.forEach(otherItem => {
+            otherItem.removeAttribute('open');
+          });
+          // Then, open the clicked item
+          item.setAttribute('open', '');
+        }
+      });
+    }
   });
 
   // ========== Load Testimonials and Initialize Slider ==========
-  // First, load the testimonial data into the DOM
-  loadRandomTestimonials();
-
-  // Then, initialize the Swiper slider on the populated container
-  new Swiper('.testimonial-slider', {
-    loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false,
-    },
-    slidesPerView: 1,
-    spaceBetween: 30,
-    
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-    },
-
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-
-    breakpoints: {
-      768: {
-        slidesPerView: 2,
+  // Load testimonials and then initialize the slider once the data is in the DOM.
+  loadRandomTestimonials().then(() => {
+    // Initialize the Swiper slider on the populated container
+    new Swiper('.testimonial-slider', {
+      loop: true,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
       },
-      1024: {
-        slidesPerView: 3,
+      slidesPerView: 1,
+      spaceBetween: 30,
+      
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+
+      breakpoints: {
+        768: {
+          slidesPerView: 2,
+        },
+        1024: {
+          slidesPerView: 3,
+        }
       }
-    }
+    });
   });
 });
