@@ -123,27 +123,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // ========== Payment System ==========
   const paymentBtn = document.getElementById('payment-btn');
-  const headerSupportBtn = document.querySelector('.support-btn-header');
 
   // Unified payment handler for both buttons
   function handlePayment() {
-    const amountInput = document.querySelector('input[name="donation-amount"]:checked');
     const customAmountInput = document.getElementById('custom-amount');
-    
-    let amount = amountInput ? parseInt(amountInput.value) : 0;
-    
-    if (customAmountInput.value && !isNaN(parseInt(customAmountInput.value))) {
-      const customAmount = parseInt(customAmountInput.value);
-      if (customAmount >= 10) {
-        amount = customAmount;
-      } else {
-        alert('Minimum donation amount is ₹10');
-        return;
-      }
-    }
-    
-    if (amount <= 0) {
-      alert('Please select or enter a valid amount');
+
+    // Validation check before proceeding
+    if (currentAmount < MIN_AMOUNT) {
+      alert(`Minimum donation amount is ₹${MIN_AMOUNT}`);
       return;
     }
     
@@ -156,13 +143,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const options = {
         key: RAZORPAY_KEY_ID,
-        amount: amount * 100,
+        amount: currentAmount * 100,
         currency: 'INR',
         name: 'Support Santosh\'s Work',
         description: 'Creative Work Support',
         image: 'src/image/my-logo.png',
         handler: function(response) {
-          paymentSuccess(amount, response);
+          paymentSuccess(currentAmount, response);
         },
         theme: { color: '#6c5ce7' },
         modal: {
@@ -191,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const mockResponse = {
           razorpay_payment_id: 'pay_demo_' + Math.random().toString(36).substr(2, 12).toUpperCase()
         };
-        paymentSuccess(amount, mockResponse);
+        paymentSuccess(currentAmount, mockResponse);
       }, 1500);
     }
   }
@@ -282,53 +269,105 @@ document.addEventListener('DOMContentLoaded', function() {
     requestAnimationFrame(step);
   }
 
-  // ========== Modal Controls ==========
-  document.getElementById('close-modal').addEventListener('click', closeModal);
-  document.getElementById('modal-ok-btn').addEventListener('click', closeModal);
+  // ========== Modal System & Payment Flow ==========
+  const supportModalOverlay = document.getElementById('support-modal-overlay');
+  const openSupportModalBtn = document.getElementById('open-support-modal-btn');
+  const closeSupportModalBtn = document.getElementById('close-support-modal');
+  const headerSupportBtn = document.querySelector('.support-btn-header');
+  const drawerSupportLink = document.querySelector('.drawer-link[href="#support"]');
+  const successModal = document.getElementById('success-modal');
+  
+  const paymentAmountDisplay = document.getElementById('payment-amount-display');
+  const customEntryWrapper = document.getElementById('custom-entry-wrapper');
+  const customAmountInput = document.getElementById('custom-amount'); // This ID is now on the input itself
+  const amountRadios = document.querySelectorAll('input[name="donation-amount"]');
+
+  // --- State ---
+  const MIN_AMOUNT = 10;
+  let currentAmount = 100; // Default amount
+
+  // --- Functions ---
+  function updatePaymentUI(amount) {
+    const parsedAmount = parseInt(amount, 10) || 0;
+    currentAmount = parsedAmount;
+    customAmountInput.classList.remove('error');
+
+    if (parsedAmount >= MIN_AMOUNT) {
+      paymentAmountDisplay.textContent = `₹${parsedAmount}`;
+      paymentBtn.disabled = false;
+    } else {
+      paymentAmountDisplay.textContent = `₹${parsedAmount || '0'}`;
+      paymentBtn.disabled = true;
+    }
+  }
 
   function resetSupportForm() {
-    // Reset radio buttons to default
     document.getElementById('amount-100').checked = true;
-    // Clear custom amount field
-    document.getElementById('custom-amount').value = '';
+    customAmountInput.value = '';
+    customEntryWrapper.classList.remove('input-mode');
+    updatePaymentUI(100); // Reset UI to default
   }
 
-  function hideSupportSection() {
-    const supportSection = document.getElementById('support');
-    if (supportSection.style.display === 'block') {
-      supportSection.style.animation = 'fadeOutDown 0.5s ease-out forwards';
-      
-      setTimeout(() => {
-        supportSection.style.display = 'none';
-        supportSection.style.animation = ''; // Reset animation for next time
-        resetSupportForm();
-      }, 500);
+  const openSupportModal = () => {
+    if (supportModalOverlay) {
+      supportModalOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      // Set initial state based on the default checked radio
+      const defaultChecked = document.querySelector('input[name="donation-amount"]:checked');
+      updatePaymentUI(defaultChecked ? defaultChecked.value : 0);
     }
-  }
+  };
 
-  function closeModal() {
-    document.getElementById('success-modal').classList.remove('active');
-    // Hide the support section gracefully after a successful payment
-    hideSupportSection();
-  }
-
-  document.getElementById('close-support-section').addEventListener('click', hideSupportSection);
-
-  // ========== Donation Amount Handling ==========
-  document.getElementById('custom-amount').addEventListener('input', function() {
-    if (this.value) {
-      document.querySelectorAll('input[name="donation-amount"]').forEach(radio => {
-        radio.checked = false;
-      });
+  const closeSupportModal = () => {
+    if (supportModalOverlay) {
+      supportModalOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+      resetSupportForm();
     }
+  };
+
+  // --- Event Listeners ---
+  customEntryWrapper.addEventListener('click', () => {
+    if (customEntryWrapper.classList.contains('input-mode')) return; // Don't re-trigger if already in input mode
+    amountRadios.forEach(radio => radio.checked = false);
+    customEntryWrapper.classList.add('input-mode');
+    customAmountInput.focus();
+    updatePaymentUI(customAmountInput.value); // Update UI based on current (possibly empty) value
   });
 
-  document.querySelectorAll('input[name="donation-amount"]').forEach(radio => {
-    radio.addEventListener('change', function() {
-      if (this.checked) {
-        document.getElementById('custom-amount').value = '';
+  amountRadios.forEach(radio => {
+    radio.addEventListener('change', () => {
+      if (radio.checked) {
+        customEntryWrapper.classList.remove('input-mode');
+        customAmountInput.value = '';
+        updatePaymentUI(radio.value);
       }
     });
+  });
+
+  customAmountInput.addEventListener('input', () => {
+    const value = customAmountInput.value;
+    if (value) {
+      amountRadios.forEach(radio => radio.checked = false);
+    }
+    updatePaymentUI(value);
+  });
+
+  // --- Success Modal Controls ---
+  document.getElementById('close-modal').addEventListener('click', () => successModal.classList.remove('active'));
+  document.getElementById('modal-ok-btn').addEventListener('click', () => successModal.classList.remove('active'));
+
+  // --- Event Listeners to Open/Close Support Modal ---
+  openSupportModalBtn.addEventListener('click', openSupportModal);
+  headerSupportBtn.addEventListener('click', (e) => { e.preventDefault(); openSupportModal(); });
+  drawerSupportLink.addEventListener('click', (e) => { e.preventDefault(); openSupportModal(); });
+  closeSupportModalBtn.addEventListener('click', closeSupportModal);
+  supportModalOverlay.addEventListener('click', (e) => { if (e.target === supportModalOverlay) closeSupportModal(); });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && supportModalOverlay.classList.contains('active')) {
+      closeSupportModal();
+    }
   });
 
   // ========== Scroll Animations ==========
@@ -369,38 +408,12 @@ document.addEventListener('DOMContentLoaded', function() {
   drawerOverlay.addEventListener('click', closeDrawer);
 
   // Close drawer when a link is clicked for better UX
+  // Note: The support link is handled separately to open the modal
   document.querySelectorAll('.drawer-nav .drawer-link').forEach(link => {
-    link.addEventListener('click', closeDrawer);
+    if (link.getAttribute('href') !== '#support') {
+      link.addEventListener('click', closeDrawer);
+    }
   });
-
-  // ========== Reveal/Scroll to Support Section ==========
-  const supportSection = document.getElementById('support');
-  // headerSupportBtn is already defined in the Payment System section
-
-  function revealSupportSection(focusPaymentButton = false) {
-    // Make section visible if it's not already
-    if (getComputedStyle(supportSection).display === 'none') {
-      supportSection.style.display = 'block';
-      supportSection.style.animation = 'fadeInUp 0.6s ease-out forwards';
-    }
-    
-    // Scroll to the section
-    supportSection.scrollIntoView({ behavior: 'smooth' });
-
-    // Optionally focus the main payment button after scrolling
-    if (focusPaymentButton) {
-      setTimeout(() => {
-        document.getElementById('payment-btn').focus();
-      }, 600); // Wait for scroll and animation
-    }
-  }
-
-  if (headerSupportBtn) {
-    headerSupportBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      revealSupportSection(true);
-    });
-  }
 
   // ========== Hero Stats Counter ==========
   const statsContainer = document.querySelector('.hero-stats');

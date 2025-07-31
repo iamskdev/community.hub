@@ -29,7 +29,9 @@
     <div class="container">
       <nav class="navbar">
         <a href="#home" class="logo">
-          <img src="src/image/profile-picture.jpg" alt="Mr. Santosh logo" class="logo-img">
+          <div class="logo-container">
+            <img src="src/image/profile-picture.jpg" alt="Mr. Santosh logo" class="logo-img">
+          </div>
           <span class="logo-text">Mr. Santosh</span>
         </a>
         <div class="header-actions">
@@ -67,22 +69,35 @@
             <span class="stat-label">Community</span>
           </div>
         </div>
+        <button class="cta-btn hero-cta-btn" id="open-support-modal-btn">
+          <i class="fas fa-heart"></i> Support My Work
+        </button>
       </section>
 
-      <section class="cta-section scroll-target" id="support">
-        <button class="modal-close" id="close-support-section" aria-label="Close">
+      <!-- Support Modal -->
+      <div class="modal-overlay" id="support-modal-overlay">
+        <div class="modal cta-modal" id="support-modal" role="dialog" aria-modal="true" aria-labelledby="support-modal-title">
+        <button class="modal-close" id="close-support-modal" aria-label="Close">
           <i class="fas fa-times"></i>
         </button>
-        <h2>Choose an Amount</h2>
+        <div class="cta-modal-header">
+          <div class="logo-container">
+            <img src="src/image/profile-picture.jpg" alt="Mr. Santosh" class="logo-img">
+          </div>
+          <div class="cta-modal-header-text">
+            <h2 id="support-modal-title">Support My Work</h2>
+            <p>Your contribution is greatly appreciated!</p>
+          </div>
+        </div>
         
         <div class="donation-options">
           <div class="donation-amount">
-            <input type="radio" id="amount-100" name="donation-amount" value="100" checked>
-            <label for="amount-100">₹100</label>
+            <input type="radio" id="amount-50" name="donation-amount" value="50">
+            <label for="amount-50">₹50</label>
           </div>
           <div class="donation-amount">
-            <input type="radio" id="amount-300" name="donation-amount" value="300">
-            <label for="amount-300">₹300</label>
+            <input type="radio" id="amount-100" name="donation-amount" value="100" checked>
+            <label for="amount-100">₹100</label>
           </div>
           <div class="donation-amount">
             <input type="radio" id="amount-500" name="donation-amount" value="500">
@@ -90,20 +105,25 @@
           </div>
         </div>
         
-        <div class="custom-amount">
-          <i class="fas fa-sack-dollar"></i>
-          <input type="number" id="custom-amount" placeholder="Or enter custom amount" min="10">
+        <!-- New transforming input button -->
+        <div class="custom-entry-wrapper" id="custom-entry-wrapper" tabindex="0">
+          <span class="custom-entry-placeholder">
+            <i class="fas fa-pencil-alt"></i> Enter Custom Amount
+          </span>
+          <input type="number" class="custom-entry-input" id="custom-amount" placeholder="Enter amount" min="10">
         </div>
         
-        <button class="cta-btn" id="payment-btn">
-          <i class="fas fa-sack-dollar"></i> Support My Work
-          <div class="spinner"></div>
-        </button>
-        
-        <p class="security-note">
-          <i class="fas fa-lock"></i> Secure payment via Razorpay
-        </p>
-      </section>
+        <div class="payment-action-wrapper">
+          <button class="cta-btn" id="payment-btn">
+            <span class="cta-btn-text">Pay <span id="payment-amount-display">₹100</span> Securely</span>
+            <div class="spinner"></div>
+          </button>
+          <p class="security-note">
+            <i class="fas fa-lock"></i> Secure payment via Razorpay
+          </p>
+        </div>
+      </div>
+    </div>
 
       <section class="value-props scroll-target" id="features">
         <h2 class="section-title">Why Your Support Matters</h2>
@@ -301,7 +321,9 @@
   <aside class="drawer" id="drawer">
     <div class="drawer-header">
       <a href="#home" class="logo">
-        <img src="src/image/profile-picture.jpg" alt="Santosh" class="logo-img">
+        <div class="logo-container">
+          <img src="src/image/profile-picture.jpg" alt="Santosh" class="logo-img">
+        </div>
         <span class="logo-text">Mr. Santosh</span>
       </a>
       <button class="drawer-close" id="drawer-close" aria-label="Close menu">
@@ -336,7 +358,9 @@
         <div class="footer-top">
           <div class="footer-brand">
             <a href="#home" class="logo">
-              <img src="src/image/profile-picture.jpg" alt="Mr. Santosh logo" class="logo-img">
+              <div class="logo-container">
+                <img src="src/image/profile-picture.jpg" alt="Mr. Santosh logo" class="logo-img">
+              </div>
               <span class="logo-text">Mr. Santosh</span>
             </a>
             <p>A passionate developer building tools and communities. Your support fuels this journey.</p>

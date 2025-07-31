@@ -1,12 +1,12 @@
-# Support Gateway
+# Santosh's Community Hub
 
-[!License: MIT](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A modern, responsive, and feature-rich landing page designed to help creators receive financial support for their work. Built with vanilla HTML, CSS, and JavaScript, it's lightweight, easy to customize, and integrated with Razorpay for seamless payments.
 
-**➡️ View Live Demo**
+**➡️ [View Live Demo](https://iamskdev.github.io/community.hub/)**
 
-!Support Gateway Screenshot
+![Community Hub Screenshot](src/image/screenshot.png)
 *(Note: You should add a screenshot of your project and name it `screenshot.png` inside the `src/image/` folder)*
 
 ---
@@ -16,10 +16,16 @@ A modern, responsive, and feature-rich landing page designed to help creators re
 - **Clean & Modern UI:** A beautiful and intuitive interface to provide a great user experience.
 - **Fully Responsive:** Looks great on all devices, from mobile phones to desktops.
 - **Light/Dark Mode:** A theme-switcher that respects user's system preference and saves their choice.
-- **Razorpay Integration:** Securely accept payments in INR.
+- **Secure Payment Modal:** A sleek modal for accepting payments via Razorpay.
 - **Dynamic Testimonial Carousel:** Showcase supporter feedback with a touch-friendly slider (powered by Swiper.js).
-- **Interactive Background:** An engaging particle effect background (powered by Particles.js).
-- **On-scroll Animations:** Subtle animations that trigger as you scroll down the page.
+- **Interactive Animations:**
+  - Engaging particle effect background (powered by Particles.js).
+  - Premium rotating gradient animation on logos.
+  - Subtle on-scroll animations for a dynamic feel.
+- **Interactive Components:**
+  - FAQ Accordion for commonly asked questions.
+  - Dynamic hero stats counter.
+  - Contact form with Netlify integration.
 - **PWA Ready:** Includes a manifest and theme color for a native-like app experience on mobile.
 - **Easy to Customize:** Built with clean code and CSS variables for easy theming.
 
@@ -49,11 +55,11 @@ You just need a modern web browser.
 
 1.  Clone the repository:
     ```sh
-    git clone https://github.com/iamskdev/support-gateway.git
+    git clone https://github.com/iamskdev/community.hub.git
     ```
 2.  Navigate to the project directory:
     ```sh
-    cd support-gateway
+    cd community.hub
     ```
 3.  Open the `index.html` file in your browser. That's it!
 
@@ -62,6 +68,7 @@ You just need a modern web browser.
 ## ⚙️ Configuration
 
 - **Razorpay Key:** To accept live payments, open `src/scripts/script.js` and replace the placeholder `RAZORPAY_KEY_ID` with your own live key from your Razorpay dashboard.
+- **Contact Form:** To receive messages from the contact form, ensure your repository is linked to a Netlify account and that the form has the `data-netlify="true"` attribute in `index.html`.
 - **Testimonials:** To change the testimonials, edit the `testimonials` array in `src/scripts/script.js`.
 - **Projects:** To update your projects, modify the `projects-section` in `index.html`.
 - **Images & Logo:** Replace the images in the `src/image/` folder with your own.
@@ -90,4 +97,8 @@ Distributed under the MIT License. See `LICENSE` file for more information.
 
 Santosh - @heysantosh - iamsantiosh@outlook.in
 
-Project Link: https://github.com/iamskdev/support-gateway
+Project Link: https://github.com/iamskdev/community.hub
+
+git add .
+git commit -m "donation-amount updated"
+git push origin main
