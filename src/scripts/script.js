@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const testimonials = [
     {
       quote: "Supporting Santosh's creative work has been incredibly rewarding. The quality of projects and the community he's building is inspiring.",
-      author: "Priya Sharma",
-      role: "Supporter since 2022",
+      author: "Khushboo Kumari",
+      role: "Supporter since 2021",
       image: "https://randomuser.me/api/portraits/women/32.jpg"
     },
       {
