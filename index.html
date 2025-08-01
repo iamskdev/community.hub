@@ -10,11 +10,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
   <link rel="stylesheet" href="src/styles/style.css">
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <meta name="theme-color" content="#6c5ce7">
 </head>
-<body>
+<body class="no-scroll">
   <!-- Particle Background -->
+  <div id="preloader">
+    <div class="loader-spinner"></div>
+  </div>
+
   <div id="particles-js"></div>
 
   <!-- Floating Elements -->
@@ -86,37 +89,15 @@
           </div>
           <div class="cta-modal-header-text">
             <h2 id="support-modal-title">Support My Work</h2>
-            <p>Your contribution is greatly appreciated!</p>
           </div>
         </div>
-        
-        <div class="donation-options">
-          <div class="donation-amount">
-            <input type="radio" id="amount-50" name="donation-amount" value="50">
-            <label for="amount-50">₹50</label>
-          </div>
-          <div class="donation-amount">
-            <input type="radio" id="amount-100" name="donation-amount" value="100" checked>
-            <label for="amount-100">₹100</label>
-          </div>
-          <div class="donation-amount">
-            <input type="radio" id="amount-500" name="donation-amount" value="500">
-            <label for="amount-500">₹500</label>
-          </div>
-        </div>
-        
-        <!-- New transforming input button -->
-        <div class="custom-entry-wrapper" id="custom-entry-wrapper" tabindex="0">
-          <span class="custom-entry-placeholder">
-            <i class="fas fa-pencil-alt"></i> Enter Custom Amount
-          </span>
-          <input type="number" class="custom-entry-input" id="custom-amount" placeholder="Enter amount" min="10">
-        </div>
+        <p class="modal-description">
+          Clicking 'Proceed' will open the official Razorpay page where you can securely complete your contribution. Thank you for your support!
+        </p>
         
         <div class="payment-action-wrapper">
-          <button class="cta-btn" id="payment-btn">
-            <span class="cta-btn-text">Pay <span id="payment-amount-display">₹100</span> Securely</span>
-            <div class="spinner"></div>
+          <button class="cta-btn" id="payment-btn" type="button">
+            <span class="cta-btn-text">Proceed to Pay</span>
           </button>
           <p class="security-note">
             <i class="fas fa-lock"></i> Secure payment via Razorpay
@@ -424,16 +405,15 @@
   <!-- Success Modal -->
   <div class="modal-overlay" id="success-modal">
     <div class="modal">
-      <button class="modal-close" id="close-modal">
+      <button class="modal-close" id="close-modal" aria-label="Close">
         <i class="fas fa-times"></i>
       </button>
       <div class="checkmark">
         <i class="fas fa-check"></i>
       </div>
-      <h2>Thank You for Your Support!</h2>
-      <p>Your <span id="donation-amount"></span>keeps me creating and sharing more with you.</p>
-      <p class="transaction-id">Transaction ID: <strong id="transaction-id"></strong></p>
-      <button class="modal-btn" id="modal-ok-btn">Continue Exploring</button>
+      <h2>Thank You!</h2>
+      <p>Redirecting you to the secure Razorpay page. Your support means the world!</p>
+      <button class="modal-btn" id="modal-ok-btn">Got it!</button>
     </div>
   </div>
 

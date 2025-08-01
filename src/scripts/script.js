@@ -1,3 +1,12 @@
+window.addEventListener('load', () => {
+  const preloader = document.getElementById('preloader');
+  if (preloader) {
+    preloader.classList.add('loaded');
+  }
+  // Allow scrolling again once everything is loaded
+  document.body.classList.remove('no-scroll');
+});
+
 document.addEventListener('DOMContentLoaded', function() {
   // ========== Testimonial Data and Loader (Moved from data-provider.js) ==========
   const testimonials = [
@@ -124,100 +133,53 @@ document.addEventListener('DOMContentLoaded', function() {
   // ========== Payment System ==========
   const paymentBtn = document.getElementById('payment-btn');
 
-  // Unified payment handler for both buttons
-  function handlePayment() {
-    const customAmountInput = document.getElementById('custom-amount');
+  const handlePayment = (event) => {
+    // Prevent any default browser action, which is good practice for buttons.
+    if(event) event.preventDefault();
 
-    // Validation check before proceeding
-    if (currentAmount < MIN_AMOUNT) {
-      alert(`Minimum donation amount is ₹${MIN_AMOUNT}`);
-      return;
-    }
-    
-    paymentBtn.classList.add('loading');
-    paymentBtn.disabled = true;
-    
-    // Check if Razorpay is available
-    if (typeof Razorpay !== 'undefined') {
-      const RAZORPAY_KEY_ID = 'rzp_test_Jvbk6GzsufGhNR'; // IMPORTANT: Replace with your LIVE key from Razorpay dashboard
+    const razorpayUrl = 'https://razorpay.me/@paytosantosh';
 
-      const options = {
-        key: RAZORPAY_KEY_ID,
-        amount: currentAmount * 100,
-        currency: 'INR',
-        name: 'Support Santosh\'s Work',
-        description: 'Creative Work Support',
-        image: 'src/image/my-logo.png',
-        handler: function(response) {
-          paymentSuccess(currentAmount, response);
-        },
-        theme: { color: '#6c5ce7' },
-        modal: {
-          ondismiss: function() {
-            console.log('Razorpay checkout form closed');
-            // Re-enable the button if the user closes the modal without paying
-            paymentBtn.classList.remove('loading');
-            paymentBtn.disabled = false;
-          }
-        }
-      };
-      
-      const rzp = new Razorpay(options);
+    // Try to open the payment link in a new tab. 'noopener' and 'noreferrer' are for security.
+    const newWindow = window.open(razorpayUrl, '_blank', 'noopener,noreferrer');
 
-      rzp.on('payment.failed', function (response) {
-        console.error('Payment Failed:', response.error);
-        alert(`Payment failed: ${response.error.description}. Please try again.`);
-        paymentBtn.classList.remove('loading');
-        paymentBtn.disabled = false;
-      });
-
-      rzp.open();
+    // Check if the new window was blocked by a popup blocker.
+    if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+      // If blocked, inform the user and redirect the current page as a fallback.
+      alert('Payment page may be blocked by a pop-up blocker. We will redirect you now.');
+      window.location.href = razorpayUrl;
     } else {
-      // Demo mode when Razorpay not available
-      setTimeout(() => {
-        const mockResponse = {
-          razorpay_payment_id: 'pay_demo_' + Math.random().toString(36).substr(2, 12).toUpperCase()
-        };
-        paymentSuccess(currentAmount, mockResponse);
-      }, 1500);
+      // If the new tab opened successfully, show the "redirecting" modal on this page.
+      setTimeout(() => { // Use a small timeout for a smoother feel
+        closeSupportModal();
+        paymentSuccess();
+      }, 100);
     }
+  };
+
+  if (paymentBtn) {
+    paymentBtn.addEventListener('click', handlePayment);
   }
 
-  paymentBtn.addEventListener('click', handlePayment);
-
-  function paymentSuccess(amount, response) {
-    paymentBtn.classList.remove('loading');
-    paymentBtn.disabled = false;
-    
-    const transactionIdElement = document.getElementById('transaction-id');
-    const transactionIdContainer = transactionIdElement.parentNode;
-
-    // Clear previous test note if it exists
-    const existingNote = transactionIdContainer.querySelector('.test-payment-note');
-    if (existingNote) {
-      existingNote.remove();
+  function paymentSuccess() {
+    const successModal = document.getElementById('success-modal');
+    if (successModal) {
+      successModal.classList.add('active');
+      createConfetti();
+      // Automatically close the modal after a few seconds for a better UX
+      setTimeout(() => {
+        // Check if the user hasn't already closed it manually
+        if (successModal.classList.contains('active')) {
+          successModal.classList.remove('active');
+        }
+      }, 3000); // 3-second delay
     }
-
-    document.getElementById('donation-amount').textContent = '₹' + amount;
-    transactionIdElement.textContent = response.razorpay_payment_id;
-
-    // Add a note if it's a test payment
-    if (response.razorpay_payment_id.startsWith('pay_demo_')) {
-      const testNote = document.createElement('span');
-      testNote.className = 'test-payment-note'; // Add class for easy removal
-      testNote.textContent = ' (Test Payment)';
-      testNote.style.cssText = 'color: var(--warning); font-weight: normal; margin-left: 4px;';
-      transactionIdContainer.appendChild(testNote);
-    }
-    document.getElementById('success-modal').classList.add('active');
-    
-    createConfetti();
   }
 
   // ========== Confetti Effect ==========
   function createConfetti() {
     const colors = ['#6c5ce7', '#00cec9', '#a29bfe', '#00b894', '#fdcb6e'];
     const container = document.getElementById('confetti-container');
+    if (!container) return;
     container.innerHTML = '';
     
     for (let i = 0; i < 50; i++) {
@@ -241,9 +203,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const rotation = Math.random() * 360;
     const duration = Math.random() * 3000 + 2000;
     
-    confetti.style.top = startY + 'px';
-    confetti.style.opacity = '1';
-    
     const startTime = performance.now();
     
     function step(currentTime) {
@@ -262,7 +221,9 @@ document.addEventListener('DOMContentLoaded', function() {
       if (progress < 1) {
         requestAnimationFrame(step);
       } else {
-        confetti.remove();
+        if (confetti.parentNode) {
+          confetti.parentNode.removeChild(confetti);
+        }
       }
     }
     
@@ -276,45 +237,12 @@ document.addEventListener('DOMContentLoaded', function() {
   const headerSupportBtn = document.querySelector('.support-btn-header');
   const drawerSupportLink = document.querySelector('.drawer-link[href="#support"]');
   const successModal = document.getElementById('success-modal');
-  
-  const paymentAmountDisplay = document.getElementById('payment-amount-display');
-  const customEntryWrapper = document.getElementById('custom-entry-wrapper');
-  const customAmountInput = document.getElementById('custom-amount'); // This ID is now on the input itself
-  const amountRadios = document.querySelectorAll('input[name="donation-amount"]');
-
-  // --- State ---
-  const MIN_AMOUNT = 10;
-  let currentAmount = 100; // Default amount
-
-  // --- Functions ---
-  function updatePaymentUI(amount) {
-    const parsedAmount = parseInt(amount, 10) || 0;
-    currentAmount = parsedAmount;
-    customAmountInput.classList.remove('error');
-
-    if (parsedAmount >= MIN_AMOUNT) {
-      paymentAmountDisplay.textContent = `₹${parsedAmount}`;
-      paymentBtn.disabled = false;
-    } else {
-      paymentAmountDisplay.textContent = `₹${parsedAmount || '0'}`;
-      paymentBtn.disabled = true;
-    }
-  }
-
-  function resetSupportForm() {
-    document.getElementById('amount-100').checked = true;
-    customAmountInput.value = '';
-    customEntryWrapper.classList.remove('input-mode');
-    updatePaymentUI(100); // Reset UI to default
-  }
 
   const openSupportModal = () => {
     if (supportModalOverlay) {
       supportModalOverlay.classList.add('active');
       document.body.style.overflow = 'hidden';
-      // Set initial state based on the default checked radio
-      const defaultChecked = document.querySelector('input[name="donation-amount"]:checked');
-      updatePaymentUI(defaultChecked ? defaultChecked.value : 0);
+      // No amount to set, just open the modal.
     }
   };
 
@@ -322,40 +250,15 @@ document.addEventListener('DOMContentLoaded', function() {
     if (supportModalOverlay) {
       supportModalOverlay.classList.remove('active');
       document.body.style.overflow = '';
-      resetSupportForm();
+      // No form to reset.
     }
   };
 
-  // --- Event Listeners ---
-  customEntryWrapper.addEventListener('click', () => {
-    if (customEntryWrapper.classList.contains('input-mode')) return; // Don't re-trigger if already in input mode
-    amountRadios.forEach(radio => radio.checked = false);
-    customEntryWrapper.classList.add('input-mode');
-    customAmountInput.focus();
-    updatePaymentUI(customAmountInput.value); // Update UI based on current (possibly empty) value
-  });
-
-  amountRadios.forEach(radio => {
-    radio.addEventListener('change', () => {
-      if (radio.checked) {
-        customEntryWrapper.classList.remove('input-mode');
-        customAmountInput.value = '';
-        updatePaymentUI(radio.value);
-      }
-    });
-  });
-
-  customAmountInput.addEventListener('input', () => {
-    const value = customAmountInput.value;
-    if (value) {
-      amountRadios.forEach(radio => radio.checked = false);
-    }
-    updatePaymentUI(value);
-  });
-
   // --- Success Modal Controls ---
-  document.getElementById('close-modal').addEventListener('click', () => successModal.classList.remove('active'));
-  document.getElementById('modal-ok-btn').addEventListener('click', () => successModal.classList.remove('active'));
+  if (successModal) {
+    document.getElementById('close-modal').addEventListener('click', () => successModal.classList.remove('active'));
+    document.getElementById('modal-ok-btn').addEventListener('click', () => successModal.classList.remove('active'));
+  }
 
   // --- Event Listeners to Open/Close Support Modal ---
   openSupportModalBtn.addEventListener('click', openSupportModal);
@@ -569,32 +472,29 @@ document.addEventListener('DOMContentLoaded', function() {
   const sections = document.querySelectorAll('.hero, .scroll-target');
   const drawerLinks = document.querySelectorAll('.drawer-nav a.drawer-link[href^="#"]');
   const particlesJsEl = document.getElementById('particles-js'); // For parallax
+ 
+  let lastKnownScrollY = 0;
+  let ticking = false;
 
   const handleScroll = () => {
-    const scrollY = window.scrollY;
-
+    const scrollY = lastKnownScrollY;
     // 1. Toggle scrolled class on header
     header.classList.toggle('scrolled', scrollY > 50);
-
     // 2. Toggle visibility of back-to-top button
     backToTopButton.classList.toggle('visible', scrollY > 300);
-
     // 3. Parallax effect for background
     if (particlesJsEl) {
       particlesJsEl.style.transform = `translateY(${scrollY * 0.4}px)`;
     }
-
     // 4. Scrollspy logic to highlight active drawer link
     const headerOffset = header.offsetHeight + 20;
     let currentSectionId = '';
-
     sections.forEach(section => {
       const sectionTop = section.offsetTop - headerOffset;
       if (scrollY >= sectionTop) {
         currentSectionId = section.getAttribute('id');
       }
     });
-
     drawerLinks.forEach(link => {
       link.classList.remove('active');
       if (link.getAttribute('href') === `#${currentSectionId}`) {
@@ -602,9 +502,21 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   };
+ 
+  window.addEventListener('scroll', () => {
+    lastKnownScrollY = window.scrollY;
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        handleScroll();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
 
-  window.addEventListener('scroll', handleScroll);
-  handleScroll(); // Initial call to set correct state on page load
+  // Initial call to set correct state on page load
+  lastKnownScrollY = window.scrollY;
+  handleScroll();
 
   // ========== FAQ Accordion ==========
   const faqItems = document.querySelectorAll('.faq-item');
