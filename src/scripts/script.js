@@ -8,44 +8,81 @@ window.addEventListener('load', () => {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-  // ========== Testimonial Data and Loader (Moved from data-provider.js) ==========
-  const testimonials = [
-    {
-      quote: "Supporting Santosh's creative work has been incredibly rewarding. The quality of projects and the community he's building is inspiring.",
-      author: "Khushboo Kumari",
-      role: "Supporting since 2021",
-      image: "https://randomuser.me/api/portraits/women/32.jpg"
-    },
-      {
-      quote: "I love being a part of this journey. My contribution feels valued, and I get to see tangible results from the projects.",
-      author: "Rahul Verma",
-      role: "Tech Enthusiast",
-      image: "https://randomuser.me/api/portraits/men/45.jpg"
-    },
-    {
-      quote: "An amazing creator with a clear vision. The content is always top-notch and genuinely helpful. Happy to support!",
-      author: "Ruby Kumari",
-      role: "Designer",
-      image: "https://randomuser.me/api/portraits/women/48.jpg"
-    },
-    {
-      quote: "The transparency in how funds are used is what convinced me to contribute. It's great to see my support making a real difference.",
-      author: "Vikram Singh",
-      role: "Long-time Follower",
-      image: "https://randomuser.me/api/portraits/men/51.jpg"
-    }
-  ];
+  // ========== Dynamic Content Loading ==========
 
-  function loadRandomTestimonials() {
+  /**
+   * Fetches data from a given URL.
+   * @param {string} url - The URL to fetch data from.
+   * @returns {Promise<Array>} - A promise that resolves to an array of data.
+   */
+  async function fetchData(url) {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error(`Could not fetch data from ${url}:`, error);
+      return []; // Return empty array on error to prevent crashes
+    }
+  }
+
+  /**
+   * Populates the projects grid with data.
+   * @param {Array} projects - The array of project objects.
+   */
+  function populateProjects(projects) {
+    const container = document.querySelector('.projects-grid');
+    if (!container) return;
+    container.innerHTML = projects.map(project => `
+      <div class="project-card">
+        <img src="${project.image}" alt="${project.alt}" class="project-image" loading="lazy">
+        <div class="project-content">
+          <h3>${project.title}</h3>
+          <p>${project.description}</p>
+          <div class="project-tags">
+            ${project.tags.map(tag => `<span>${tag}</span>`).join('')}
+          </div>
+          <div class="project-links">
+            <a href="${project.links.demo.url}" class="project-link ${project.links.demo.disabled ? 'disabled' : ''}" ${project.links.demo.disabled ? 'aria-disabled="true" tabindex="-1"' : 'target="_blank" rel="noopener noreferrer"'}>Live Demo <i class="fas fa-external-link-alt"></i></a>
+            <a href="${project.links.source.url}" class="project-link" target="_blank" rel="noopener noreferrer">Source <i class="fab fa-github"></i></a>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  /**
+   * Populates the FAQ section with data.
+   * @param {Array} faqData - The array of FAQ objects.
+   */
+  function populateFaq(faqData) {
+    const container = document.querySelector('.faq-container');
+    if (!container) return;
+    container.innerHTML = faqData.map(item => `
+      <details class="faq-item">
+        <summary>${item.question}</summary>
+        <div class="faq-content">
+          <p>${item.answer}</p>
+        </div>
+      </details>
+    `).join('');
+  }
+
+  /**
+   * Populates the testimonial slider with data.
+   * @param {Array} testimonials - The array of testimonial objects.
+   * @returns {Promise} - A promise that resolves when the testimonials are loaded.
+   */
+  function populateTestimonialSlider(testimonials) {
     return new Promise(resolve => {
       const container = document.getElementById('testimonial-container');
       if (!container) return resolve();
 
-      // Simulate a network delay to show the skeleton
+      // Simulate a delay to show the skeleton loader, improving perceived performance.
       setTimeout(() => {
-        // Clear skeleton loaders
         container.innerHTML = '';
-
         const shuffledTestimonials = [...testimonials].sort(() => Math.random() - 0.5);
 
         shuffledTestimonials.forEach(testimonial => {
@@ -55,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="testimonial-card">
               <p class="testimonial-content">${testimonial.quote}</p>
               <div class="testimonial-author">
-                <img src="${testimonial.image}" alt="${testimonial.author}" class="author-avatar">
+                <img src="${testimonial.image}" alt="${testimonial.author}" class="author-avatar" loading="lazy">
                 <div class="author-info">
                   <h4>${testimonial.author}</h4>
                   <p>${testimonial.role}</p>
@@ -67,6 +104,64 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         resolve(); // Resolve the promise after loading
       }, 1500); // 1.5 second delay
+    });
+  }
+
+  /**
+   * Initializes the FAQ accordion functionality.
+   * Must be called after the FAQ items are added to the DOM.
+   */
+  function initializeFaqAccordion() {
+    const faqContainer = document.querySelector('.faq-container');
+    if (!faqContainer) return;
+
+    // Use event delegation for better performance and to handle dynamic content
+    faqContainer.addEventListener('click', (e) => {
+      const summary = e.target.closest('summary');
+      if (!summary) return;
+
+      e.preventDefault();
+      const item = summary.parentElement;
+
+      // If this item is already open, close it.
+      if (item.hasAttribute('open')) {
+        item.removeAttribute('open');
+      } else {
+        // Close all other open items first
+        faqContainer.querySelectorAll('details[open]').forEach(otherItem => {
+          otherItem.removeAttribute('open');
+        });
+        // Then, open the clicked item
+        item.setAttribute('open', '');
+      }
+    });
+  }
+
+  /**
+   * Initializes the Swiper slider for testimonials.
+   * Must be called after the testimonials are added to the DOM.
+   */
+  function initializeTestimonialSlider() {
+    new Swiper('.testimonial-slider', {
+      loop: true,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
+      slidesPerView: 1,
+      spaceBetween: 30,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      breakpoints: {
+        768: { slidesPerView: 2 },
+        1024: { slidesPerView: 3 }
+      }
     });
   }
 
@@ -518,61 +613,24 @@ document.addEventListener('DOMContentLoaded', function() {
   lastKnownScrollY = window.scrollY;
   handleScroll();
 
-  // ========== FAQ Accordion ==========
-  const faqItems = document.querySelectorAll('.faq-item');
-  faqItems.forEach(item => {
-    const summary = item.querySelector('summary');
-    if (summary) {
-      summary.addEventListener('click', (e) => {
-        // Prevent the default <details> toggle to handle it manually
-        e.preventDefault();
+  /**
+   * Main function to fetch and render all dynamic content.
+   */
+  async function initializePage() {
+    const [projects, faqData, testimonials] = await Promise.all([
+      fetchData('src/data/projects.json'),
+      fetchData('src/data/faq.json'),
+      fetchData('src/data/testimonials.json')
+    ]);
 
-        // If this item is already open, close it.
-        if (item.hasAttribute('open')) {
-          item.removeAttribute('open');
-        } else {
-          // Close all other open items first
-          faqItems.forEach(otherItem => {
-            otherItem.removeAttribute('open');
-          });
-          // Then, open the clicked item
-          item.setAttribute('open', '');
-        }
-      });
-    }
-  });
+    populateProjects(projects);
+    populateFaq(faqData);
+    initializeFaqAccordion(); // Initialize FAQ after populating
 
-  // ========== Load Testimonials and Initialize Slider ==========
-  // Load testimonials and then initialize the slider once the data is in the DOM.
-  loadRandomTestimonials().then(() => {
-    // Initialize the Swiper slider on the populated container
-    new Swiper('.testimonial-slider', {
-      loop: true,
-      autoplay: {
-        delay: 5000,
-        disableOnInteraction: false,
-      },
-      slidesPerView: 1,
-      spaceBetween: 30,
-      
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
+    await populateTestimonialSlider(testimonials);
+    initializeTestimonialSlider(); // Initialize slider after populating
+  }
 
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-
-      breakpoints: {
-        768: {
-          slidesPerView: 2,
-        },
-        1024: {
-          slidesPerView: 3,
-        }
-      }
-    });
-  });
+  // Start loading all dynamic content
+  initializePage();
 });
