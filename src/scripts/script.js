@@ -41,28 +41,33 @@ document.addEventListener('DOMContentLoaded', function() {
     const phase = getMoonPhase(today);
     const moon = document.createElement('div');
     moon.className = 'moon';
+ 
+    // First, add the moon to the DOM to be able to read its CSS-defined styles.
+    moonContainer.innerHTML = '';
+    moonContainer.appendChild(moon);
 
-    // Use the container's actual width for accurate shadow calculation
+    // Now, get the computed glow effect which is theme-dependent.
+    const glowShadow = window.getComputedStyle(moon).boxShadow;
+
+    // Define properties for the phase shadow
+    const shadowColor = 'rgba(0, 0, 0, 0.6)';
     const moonWidth = moonContainer.offsetWidth;
-    // Use a semi-transparent black for a more realistic shadow
-    const shadowColor = 'rgba(0, 0, 0, 0.6)'; // Slightly lighter shadow for a softer look
-    let shadowPosition = 0;
-    // Add a blur to the shadow's edge to create a soft terminator line
-    const blurRadius = moonWidth * 0.2; // Blur radius relative to moon size (e.g., 20% of width)
-    const spreadRadius = -moonWidth * 0.05; // Negative spread for a sharper start to the blur
+    const blurRadius = moonWidth * 0.2;
+    const spreadRadius = -moonWidth * 0.05;
+    let phaseShadowString = '';
 
     if (phase <= 4) {
       // Waxing (from new moon to full moon)
-      shadowPosition = (1 - (phase / 4)) * moonWidth;
-      moon.style.boxShadow = `inset ${shadowPosition}px 0 ${blurRadius}px ${spreadRadius}px ${shadowColor}`;
+      const shadowPosition = (1 - (phase / 4)) * moonWidth;
+      phaseShadowString = `inset ${shadowPosition}px 0 ${blurRadius}px ${spreadRadius}px ${shadowColor}`;
     } else {
       // Waning (from full moon to new moon)
-      shadowPosition = ((phase - 4) / 4) * moonWidth;
-      moon.style.boxShadow = `inset -${shadowPosition}px 0 ${blurRadius}px ${spreadRadius}px ${shadowColor}`;
+      const shadowPosition = ((phase - 4) / 4) * moonWidth;
+      phaseShadowString = `inset -${shadowPosition}px 0 ${blurRadius}px ${spreadRadius}px ${shadowColor}`;
     }
 
-    moonContainer.innerHTML = '';
-    moonContainer.appendChild(moon);
+    // Combine the theme-aware glow from CSS with the calculated phase shadow.
+    moon
   }
 
 
