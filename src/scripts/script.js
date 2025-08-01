@@ -8,6 +8,86 @@ window.addEventListener('load', () => {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+  // ========== Moon Phase & Shooting Stars ==========
+  const moonContainer = document.getElementById('moon-container');
+
+  function getMoonPhase(date) {
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    const day = date.getDate();
+
+    let c = 0, e = 0, jd = 0, b = 0;
+
+    if (month < 3) {
+      year--;
+      month += 12;
+    }
+
+    ++month;
+    c = 365.25 * year;
+    e = 30.6 * month;
+    jd = c + e + day - 694039.09;
+    jd /= 29.5305882;
+    b = parseInt(jd);
+    jd -= b;
+    b = Math.round(jd * 8);
+
+    if (b >= 8) b = 0;
+    return b;
+  }
+
+  function setMoonPhase() {
+    const today = new Date();
+    const phase = getMoonPhase(today);
+    const moon = document.createElement('div');
+    moon.className = 'moon';
+
+    // Use the container's actual width for accurate shadow calculation
+    const moonWidth = moonContainer.offsetWidth;
+    // Use a semi-transparent black for a more realistic shadow
+    const shadowColor = 'rgba(0, 0, 0, 0.6)'; // Slightly lighter shadow for a softer look
+    let shadowPosition = 0;
+    // Add a blur to the shadow's edge to create a soft terminator line
+    const blurRadius = moonWidth * 0.2; // Blur radius relative to moon size (e.g., 20% of width)
+    const spreadRadius = -moonWidth * 0.05; // Negative spread for a sharper start to the blur
+
+    if (phase <= 4) {
+      // Waxing (from new moon to full moon)
+      shadowPosition = (1 - (phase / 4)) * moonWidth;
+      moon.style.boxShadow = `inset ${shadowPosition}px 0 ${blurRadius}px ${spreadRadius}px ${shadowColor}`;
+    } else {
+      // Waning (from full moon to new moon)
+      shadowPosition = ((phase - 4) / 4) * moonWidth;
+      moon.style.boxShadow = `inset -${shadowPosition}px 0 ${blurRadius}px ${spreadRadius}px ${shadowColor}`;
+    }
+
+    moonContainer.innerHTML = '';
+    moonContainer.appendChild(moon);
+  }
+
+
+  function createShootingStar() {
+    const star = document.createElement('div');
+    star.className = 'shooting-star';
+
+    const headerHeight = document.querySelector('header')?.offsetHeight || 80;
+    
+    // Set properties for the animation via CSS variables
+    star.style.setProperty('--start-x', '100vw');
+    star.style.setProperty('--start-y', `${headerHeight + Math.random() * 100}px`); // Start below header at a random height
+    star.style.setProperty('--end-x', '-150px'); // End off-screen
+    star.style.setProperty('--end-y', '100vh');
+    star.style.setProperty('--duration', `${Math.random() * 1 + 1.5}s`); // 1.5s to 2.5s
+    star.style.setProperty('--delay', '0s');
+
+    document.body.appendChild(star);
+
+    star.addEventListener('animationend', () => {
+      star.remove();
+    });
+  }
+  setMoonPhase();
+
   // ========== Dynamic Content Loading ==========
 
   /**
@@ -197,33 +277,7 @@ document.addEventListener('DOMContentLoaded', function() {
     applyTheme(newTheme);
   });
 
-  // ========== Particles.js ==========
-  particlesJS('particles-js', {
-    "particles": {
-      "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
-      "color": { "value": "#6c5ce7" },
-      "shape": { "type": "circle", "stroke": { "width": 0, "color": "#000000" } },
-      "opacity": { "value": 0.3, "random": true },
-      "size": { "value": 3, "random": true },
-      "line_linked": {
-        "enable": true,
-        "distance": 150,
-        "color": "#a29bfe",
-        "opacity": 0.2,
-        "width": 1
-      },
-      "move": { "enable": true, "speed": 2, "direction": "none" }
-    },
-    "interactivity": {
-      "detect_on": "canvas",
-      "events": {
-        "onhover": { "enable": true, "mode": "grab" },
-        "onclick": { "enable": true, "mode": "push" },
-        "resize": true
-      }
-    },
-    "retina_detect": true
-  });
+  
 
   // ========== Payment System ==========
   const paymentBtn = document.getElementById('payment-btn');
@@ -272,57 +326,42 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // ========== Confetti Effect ==========
   function createConfetti() {
-    const colors = ['#6c5ce7', '#00cec9', '#a29bfe', '#00b894', '#fdcb6e'];
     const container = document.getElementById('confetti-container');
     if (!container) return;
-    container.innerHTML = '';
-    
-    for (let i = 0; i < 50; i++) {
+    container.innerHTML = ''; // Clear previous confetti
+
+    const colors = ['#6c5ce7', '#00cec9', '#a29bfe', '#00b894', '#fdcb6e'];
+    const confettiCount = 50;
+
+    for (let i = 0; i < confettiCount; i++) {
       const confetti = document.createElement('div');
       confetti.className = 'confetti';
-      confetti.style.left = Math.random() * 100 + 'vw';
-      confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-      confetti.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
-      confetti.style.width = Math.random() * 10 + 5 + 'px';
-      confetti.style.height = confetti.style.width;
-      confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-      container.appendChild(confetti);
-      animateConfetti(confetti);
-    }
-  }
 
-  function animateConfetti(confetti) {
-    const startX = parseFloat(confetti.style.left);
-    const startY = -10;
-    const endY = window.innerHeight + 10;
-    const rotation = Math.random() * 360;
-    const duration = Math.random() * 3000 + 2000;
-    
-    const startTime = performance.now();
-    
-    function step(currentTime) {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      
-      const y = startY + (endY - startY) * progress;
-      const x = startX + Math.sin(progress * Math.PI * 2) * 100;
-      const currentRotation = rotation + progress * 360;
-      
-      confetti.style.top = y + 'px';
-      confetti.style.left = x + 'px';
-      confetti.style.transform = 'rotate(' + currentRotation + 'deg)';
-      confetti.style.opacity = 1 - progress;
-      
-      if (progress < 1) {
-        requestAnimationFrame(step);
-      } else {
-        if (confetti.parentNode) {
-          confetti.parentNode.removeChild(confetti);
-        }
-      }
+      const size = Math.random() * 8 + 6 + 'px'; // 6px to 14px
+      const xPos = Math.random() * 100 + 'vw';
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const radius = Math.random() > 0.5 ? '50%' : '3px';
+      const duration = Math.random() * 3 + 2 + 's'; // 2s to 5s
+      const delay = Math.random() * 2 + 's'; // 0s to 2s
+      const startRot = Math.random() * 360 + 'deg';
+      const endRot = Math.random() * 360 + 720 + 'deg'; // Rotate at least twice
+
+      confetti.style.setProperty('--size', size);
+      confetti.style.setProperty('--x-pos', xPos);
+      confetti.style.setProperty('--color', color);
+      confetti.style.setProperty('--radius', radius);
+      confetti.style.setProperty('--duration', duration);
+      confetti.style.setProperty('--delay', delay);
+      confetti.style.setProperty('--start-rot', startRot);
+      confetti.style.setProperty('--end-rot', endRot);
+
+      container.appendChild(confetti);
+
+      // Remove the element after animation to clean up the DOM
+      confetti.addEventListener('animationend', () => {
+        confetti.remove();
+      });
     }
-    
-    requestAnimationFrame(step);
   }
 
   // ========== Modal System & Payment Flow ==========
@@ -570,6 +609,9 @@ document.addEventListener('DOMContentLoaded', function() {
  
   let lastKnownScrollY = 0;
   let ticking = false;
+  // Cooldown for shooting stars on scroll
+  let lastStarTime = 0;
+  const starCooldown = 200; // ms, a new star can be created at most every 200ms
 
   const handleScroll = () => {
     const scrollY = lastKnownScrollY;
@@ -577,11 +619,21 @@ document.addEventListener('DOMContentLoaded', function() {
     header.classList.toggle('scrolled', scrollY > 50);
     // 2. Toggle visibility of back-to-top button
     backToTopButton.classList.toggle('visible', scrollY > 300);
-    // 3. Parallax effect for background
+    // 3. Parallax for particles background
     if (particlesJsEl) {
-      particlesJsEl.style.transform = `translateY(${scrollY * 0.4}px)`;
+      // Slower, more "universe-like" parallax effect
+      const yOffset = scrollY * 0.1; // Much slower vertical scroll
+      const xOffset = Math.sin(scrollY / 500) * 15; // Gentle side-to-side drift (amplitude 15px)
+      const rotation = Math.sin(scrollY / 1000) * 1; // Subtle rotation (max 1 degree)
+      particlesJsEl.style.transform = `translate(${xOffset}px, ${yOffset}px) rotate(${rotation}deg)`;
     }
-    // 4. Scrollspy logic to highlight active drawer link
+    // 4. Create shooting star on scroll with cooldown
+    const now = performance.now();
+    if (scrollY > 50 && now - lastStarTime > starCooldown) {
+      createShootingStar();
+      lastStarTime = now;
+    }
+    // 3. Scrollspy logic to highlight active drawer link
     const headerOffset = header.offsetHeight + 20;
     let currentSectionId = '';
     sections.forEach(section => {
