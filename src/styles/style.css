@@ -126,8 +126,8 @@
 
 #moon-container {
   position: fixed;
-  top: 70px;
-  right: 20px; /* Move to top right for better balance */
+  top: 10.5vh;
+  left: 5vw;
   width: 40px;
   height: 40px;
   z-index: 0;
@@ -164,30 +164,21 @@
 }
 
 /* Shooting Stars */
-.shooting-star {
-  position: fixed;
-  /* A thin, long tail for a more realistic streak */
-  width: 2px;
-  height: 120px;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), transparent);
-  border-radius: 1px;
-  opacity: 0;
-  transform-origin: top center;
-  z-index: 1; /* Ensure star is above the main content but below the header */
-  /* Use CSS variables for dynamic animation properties from JS */
-  animation: shoot var(--duration) var(--delay) linear forwards;
+.star {
+  position: absolute;
+  top: -80px;
+  width: 3px;
+  height: 100px;
+  /* नीचे मोटा, ऊपर fade */
+  background: linear-gradient(to top, white 0%, rgba(255,255,255,0) 100%);
+  border-radius: 50% 50% 0 0;
+  animation: fall linear forwards;
+  filter: drop-shadow(0 0 8px white);
 }
 
-@keyframes shoot {
-  0% {
-    transform: translate(var(--start-x), var(--start-y)) rotate(45deg);
-    opacity: 1;
-  }
-  80% {
-    opacity: 1;
-  }
-  100% {
-    transform: translate(var(--end-x), var(--end-y)) rotate(45deg);
+@keyframes fall {
+  to {
+    transform: translateY(110vh);
     opacity: 0;
   }
 }
@@ -661,10 +652,6 @@ header .logo-container {
       font-weight: 600; /* Make it a bit bolder when open */
       color: var(--primary);
       border-bottom-color: transparent; /* No bottom border on summary */
-    }
-
-    .faq-item[open] summary::after {
-      transform: rotate(180deg);
     }
 
     .faq-item .faq-content {
@@ -1198,10 +1185,6 @@ header .logo-container {
       text-decoration: underline;
     }
 
-    .project-link i {
-      margin-left: 0.25rem;
-    }
-
     .project-link.disabled {
       color: var(--text-light);
       cursor: not-allowed;
@@ -1276,10 +1259,6 @@ header .logo-container {
 
     .skeleton-author-info {
       flex-grow: 1;
-    }
-
-    .skeleton-author-info .skeleton-line {
-      margin-bottom: 0.5em;
     }
 
     .skeleton-line-author { width: 50%; height: 0.9em; }

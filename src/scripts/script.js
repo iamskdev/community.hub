@@ -71,27 +71,29 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
 
-  function createShootingStar() {
-    const star = document.createElement('div');
-    star.className = 'shooting-star';
+  setMoonPhase();
 
-    const headerHeight = document.querySelector('header')?.offsetHeight || 80;
-    
-    // Set properties for the animation via CSS variables
-    star.style.setProperty('--start-x', '100vw');
-    star.style.setProperty('--start-y', `${headerHeight + Math.random() * 100}px`); // Start below header at a random height
-    star.style.setProperty('--end-x', '-150px'); // End off-screen
-    star.style.setProperty('--end-y', '100vh');
-    star.style.setProperty('--duration', `${Math.random() * 1 + 1.5}s`); // 1.5s to 2.5s
-    star.style.setProperty('--delay', '0s');
+  function createStar() {
+    const star = document.createElement('div');
+    star.className = 'star';
+
+    // Random X position
+    star.style.left = Math.random() * window.innerWidth + 'px';
+
+    // Random falling duration
+    const duration = 2 + Math.random() * 2;
+    star.style.animationDuration = duration + 's';
 
     document.body.appendChild(star);
 
-    star.addEventListener('animationend', () => {
+    // Remove after animation ends
+    setTimeout(() => {
       star.remove();
-    });
+    }, duration * 1000);
   }
-  setMoonPhase();
+
+  // Keep creating stars
+  setInterval(createStar, 200);
 
   // ========== Dynamic Content Loading ==========
 
@@ -211,13 +213,6 @@ document.addEventListener('DOMContentLoaded', function() {
       // If this item is already open, close it.
       if (item.hasAttribute('open')) {
         item.removeAttribute('open');
-      } else {
-        // Close all other open items first
-        faqContainer.querySelectorAll('details[open]').forEach(otherItem => {
-          otherItem.removeAttribute('open');
-        });
-        // Then, open the clicked item
-        item.setAttribute('open', '');
       }
     });
   }
@@ -389,7 +384,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (supportModalOverlay) {
       supportModalOverlay.classList.remove('active');
       document.body.style.overflow = '';
-      // No form to reset.
     }
   };
 
@@ -635,10 +629,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // 4. Create shooting star on scroll with cooldown
     const now = performance.now();
     if (scrollY > 50 && now - lastStarTime > starCooldown) {
-      createShootingStar();
       lastStarTime = now;
     }
-    // 3. Scrollspy logic to highlight active drawer link
+    // 5. Scrollspy logic to highlight active drawer link
     const headerOffset = header.offsetHeight + 20;
     let currentSectionId = '';
     sections.forEach(section => {
